@@ -100,6 +100,20 @@
             transition: transform 0.3s ease-in-out 0.1s;
             transform: translate(0);
         }
+        
+        /* Mobile menu animation classes */
+        .nav-menu-transition {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+        .nav-menu-hidden {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .nav-menu-visible {
+            max-height: 20rem; /* Adjust as needed */
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="bg-black text-white p-4 md:p-12 lg:p-24 min-h-screen antialiased">
@@ -108,12 +122,14 @@
     <header class="fixed top-0 left-0 right-0 z-50 bg-black bg-opacity-70 backdrop-blur-sm p-4 md:p-6 flex flex-col items-center">
         <nav class="w-full max-w-6xl flex justify-between items-center">
             <a href="#" class="text-2xl font-black tracking-tighter">ZidhuXD</a>
+            
             <!-- Hamburger menu button for mobile -->
             <button id="menu-button" class="md:hidden text-white focus:outline-none">
                 <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
             </button>
+
             <!-- Desktop navigation links -->
             <div id="nav-menu" class="hidden md:flex space-x-4 md:space-x-8">
                 <a href="#projects" class="text-gray-400 hover:text-white transition-colors">Projects</a>
@@ -122,7 +138,7 @@
             </div>
         </nav>
         <!-- Mobile navigation links (hidden by default) -->
-        <div id="mobile-nav-menu" class="hidden w-full mt-4 md:hidden">
+        <div id="mobile-nav-menu" class="w-full mt-4 md:hidden nav-menu-transition nav-menu-hidden">
             <div class="flex flex-col items-end space-y-4">
                 <a href="#projects" class="text-gray-400 hover:text-white transition-colors text-xl">Projects</a>
                 <a href="#about" class="text-gray-400 hover:text-white transition-colors text-xl">About</a>
@@ -141,7 +157,7 @@
 
         <!-- "Visit my projects" section -->
         <section id="projects" class="flex flex-col items-start justify-center space-y-6 pt-16">
-            <h2 class="text-5xl sm:text-6xl md:text-7xl font-black tracking-tight text-center md:text-left">
+            <h2 class="text-5xl sm:text-6xl md:text-7xl font-black tracking-tight text-left">
                 Visit my projects
             </h2>
             <a href="/projects" class="button" style="--clr: #B7F538">
@@ -177,7 +193,7 @@
 
         <!-- About Me Section -->
         <section id="about" class="space-y-8 md:space-y-12 pt-16">
-            <h1 class="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight text-center md:text-left">
+            <h1 class="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight text-left">
                 About Me
             </h1>
             <div class="space-y-6 text-lg md:text-xl leading-relaxed max-w-4xl">
@@ -238,14 +254,23 @@
 
         // Function to close the mobile menu
         function closeMenu() {
-            mobileNavMenu.classList.add('hidden');
-            mobileNavMenu.classList.remove('flex');
+            mobileNavMenu.classList.remove('nav-menu-visible');
+            mobileNavMenu.classList.add('nav-menu-hidden');
+        }
+        
+        // Function to open the mobile menu
+        function openMenu() {
+            mobileNavMenu.classList.remove('nav-menu-hidden');
+            mobileNavMenu.classList.add('nav-menu-visible');
         }
 
         // Toggle the mobile menu on button click
         menuButton.addEventListener('click', () => {
-            mobileNavMenu.classList.toggle('hidden');
-            mobileNavMenu.classList.toggle('flex');
+            if (mobileNavMenu.classList.contains('nav-menu-hidden')) {
+                openMenu();
+            } else {
+                closeMenu();
+            }
         });
 
         // Close the menu when a link is clicked
