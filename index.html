@@ -3,40 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZidhuXD - Portal</title>
+    <title>ZidhuXD - Portfolio</title>
     
     <!-- Tailwind CSS CDN for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Font for a clean, modern look -->
+    <!-- Google Font 'Inter' for a clean, modern look -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     
-    <!-- Custom CSS for subtle overrides, custom fonts, and animations -->
+    <!-- Custom CSS for animations and overrides -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
             transition: background-color 0.3s ease;
         }
 
-        /* Defining the custom font for paragraphs */
-        @font-face {
-            font-family: 'HeheFont';
-            /* Placeholder: Replace this with the URL to your font file, e.g., url('/path/to/your/font.otf') */
-            src: local('HeheFont'), url('/zidhuxdport/xd.otf') format('opentype');
-        }
-
-        /* Applying the custom font to all p tags */
-        p {
-            font-family: 'HeheFont', sans-serif;
-        }
-
-        /* Hover effect for project cards */
-        .project-card:hover .project-overlay {
-            opacity: 1;
-        }
-
+        /* NOTE: The original custom font 'HeheFont' was referencing a local file '/zidhuxdport/xd.otf', which will not work.
+           To re-enable this font, replace the src URL with a valid, hosted link to the font file.
+           For now, the site will use the 'Inter' font for all text.
+        */
+        
         /* Custom button styling from Uiverse */
         .button {
             line-height: 1;
@@ -76,20 +64,11 @@
             color: white;
         }
 
-        .button:hover .button__icon-wrapper {
-            color: #000;
-        }
-
-        .button__icon-svg {
-            transition: all 0.3s ease-in-out;
-            fill: black;
-        }
-        
         .button:hover .button__icon-svg {
             transform: translateX(5px);
             fill: white;
         }
-
+        
         .button__icon-svg--copy {
             position: absolute;
             transform: translate(-150%, 150%);
@@ -138,12 +117,30 @@
             overflow: hidden;
             white-space: nowrap;
             position: relative;
-            mask-image: linear-gradient(to right, 
-                transparent, 
-                white 20%, 
-                white 80%, 
-                transparent);
         }
+
+        /* Using a pseudo-element for a more reliable fade-out effect on the sides */
+        .clients-scroll-container::before,
+        .clients-scroll-container::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 10%; /* Adjust fade width as needed */
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .clients-scroll-container::before {
+            left: 0;
+            background: linear-gradient(to right, #000, rgba(0, 0, 0, 0));
+        }
+        
+        .clients-scroll-container::after {
+            right: 0;
+            background: linear-gradient(to left, #000, rgba(0, 0, 0, 0));
+        }
+
 
         .clients-scroll-inner {
             display: inline-block;
@@ -165,34 +162,201 @@
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
+        
+        /* The CSS for the text drawing animation */
+        .text-drawing-effect {
+            color: transparent;
+            -webkit-text-stroke: 1px #B7F538;
+            position: relative;
+            animation: stroke-in 1.5s forwards;
+            font-weight: bold;
+        }
+        
+        /* The fill animation is a pseudo-element that scales up */
+        .text-drawing-effect::after {
+            content: "Made with ❤️ by ZidhuXD.";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            color: white;
+            animation: fill-text 1s forwards 1.5s;
+        }
+
+        @keyframes stroke-in {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes fill-text {
+            from {
+                clip-path: inset(0 100% 0 0);
+            }
+            to {
+                clip-path: inset(0 0 0 0);
+            }
+        }
+
+        /* Custom CSS for the social buttons */
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            margin: 0;
+            gap: 1.5rem;
+        }
+
+        .social-links .icon-content {
+            position: relative;
+        }
+
+        .social-links .icon-content .tooltip {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 15px;
+            opacity: 0;
+            visibility: hidden;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .social-links .icon-content:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+            top: -50px;
+        }
+
+        .social-links .icon-content a {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 20%;
+            color: #4d4d4d;
+            background-color: #fff;
+            transition: all 0.3s ease-in-out;
+            text-decoration: none;
+        }
+        .social-links .icon-content a:hover {
+            box-shadow: 3px 2px 45px 0px rgb(0 0 0 / 50%);
+        }
+
+        .social-links .icon-content a svg {
+            position: relative;
+            z-index: 1;
+            width: 30px;
+            height: 30px;
+        }
+
+        .social-links .icon-content a:hover {
+            color: white;
+        }
+
+        .social-links .icon-content a .filled {
+            position: absolute;
+            top: auto;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background-color: #000;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .social-links .icon-content a:hover .filled {
+            height: 100%;
+        }
+
+        /* GitHub */
+        .social-links .icon-content a[data-social="github"] .filled,
+        .social-links .icon-content a[data-social="github"] ~ .tooltip {
+            background-color: #24262a;
+        }
+        
+        /* Instagram */
+        .social-links .icon-content a[data-social="instagram"] .filled,
+        .social-links a[data-social="instagram"] ~ .tooltip {
+            background: linear-gradient(
+                45deg,
+                #405de6,
+                #5b51db,
+                #b33ab4,
+                #c135b4,
+                #e1306c,
+                #fd1f1f
+            );
+        }
+        
+        /* Telegram */
+        .social-links .icon-content a[data-social="telegram"] .filled,
+        .social-links .icon-content a[data-social="telegram"] ~ .tooltip {
+            background-color: #0088cc;
+        }
+        
+        /* Added a class for the new section heading */
+        .connect-heading {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
     </style>
 </head>
 <body class="bg-black text-white p-4 md:p-12 lg:p-24 min-h-screen antialiased">
 
     <!-- Header Section - Navigation Bar -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-black bg-opacity-70 backdrop-blur-sm p-4 md:p-6 flex flex-col items-center">
-        <nav class="w-full max-w-6xl flex justify-between items-center">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-black bg-opacity-70 backdrop-blur-sm p-4 md:p-6">
+        <nav class="w-full max-w-6xl mx-auto flex justify-between items-center">
             <a href="#" class="text-2xl font-black tracking-tighter">xD</a>
             
-            <!-- Hamburger menu button for mobile -->
-            <button id="menu-button" class="md:hidden text-white focus:outline-none">
-                <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
-            </button>
+            <div class="flex items-center space-x-4 md:space-x-8">
+                <!-- Desktop navigation links -->
+                <div id="nav-menu-desktop" class="hidden md:flex space-x-4 md:space-x-8">
+                    <a href="/projects" class="text-gray-400 hover:text-white transition-colors">Projects</a>
+                    <a href="#about" class="text-gray-400 hover:text-white transition-colors">About</a>
+                    <a href="#clients" class="text-gray-400 hover:text-white transition-colors">Clients</a>
+                    <a href="#connect" class="text-gray-400 hover:text-white transition-colors">Connect</a>
+                </div>
+                
+                <!-- "Say Hello" Button -->
+                <a href="#contact" class="button hidden md:inline-flex" style="--clr: #B7F538">
+                    <span class="button__icon-wrapper">
+                        <svg viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="button__icon-svg" width="10">
+                            <path d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z" fill="currentColor"></path>
+                        </svg>
+                        <svg viewBox="0 0 14 15" fill="none" width="10" xmlns="http://www.w3.org/2000/svg" class="button__icon-svg button__icon-svg--copy">
+                            <path d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z" fill="currentColor"></path>
+                        </svg>
+                    </span>
+                    Say Hello
+                </a>
 
-            <!-- Desktop navigation links -->
-            <div id="nav-menu" class="hidden md:flex space-x-4 md:space-x-8">
-                <a href="#projects" class="text-gray-400 hover:text-white transition-colors">Projects</a>
-                <a href="#about" class="text-gray-400 hover:text-white transition-colors">About</a>
-                <a href="#contact" class="text-gray-400 hover:text-white transition-colors">Contact</a>
+                <!-- Hamburger menu button for mobile -->
+                <button id="menu-button" class="md:hidden text-white focus:outline-none" aria-label="Toggle navigation menu" aria-controls="mobile-nav-menu">
+                    <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
             </div>
         </nav>
         <!-- Mobile navigation links (hidden by default) -->
         <div id="mobile-nav-menu" class="w-full mt-4 md:hidden nav-menu-transition nav-menu-hidden">
             <div class="flex flex-col items-end space-y-4">
-                <a href="#projects" class="text-gray-400 hover:text-white transition-colors text-xl">Projects</a>
+                <a href="/projects" class="text-gray-400 hover:text-white transition-colors text-xl">Projects</a>
                 <a href="#about" class="text-gray-400 hover:text-white transition-colors text-xl">About</a>
+                <a href="#clients" class="text-gray-400 hover:text-white transition-colors text-xl">Clients</a>
+                <a href="#connect" class="text-gray-400 hover:text-white transition-colors text-xl">Connect</a>
                 <a href="#contact" class="text-gray-400 hover:text-white transition-colors text-xl">Contact</a>
             </div>
         </div>
@@ -204,42 +368,6 @@
             <h1 class="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight text-center md:text-left">
                 Welcome to ZIdhuXD Portal
             </h1>
-        </section>
-
-        <!-- "Visit my projects" section -->
-        <section id="projects" class="flex flex-col items-start justify-center space-y-6 pt-16">
-            <h2 class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-left">
-                Visit my projects
-            </h2>
-            <a href="/projects" class="button" style="--clr: #B7F538">
-                <span class="button__icon-wrapper">
-                    <svg
-                        viewBox="0 0 14 15"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="button__icon-svg"
-                        width="10"
-                    >
-                        <path
-                            d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z"
-                            fill="currentColor"
-                        ></path>
-                    </svg>
-                    <svg
-                        viewBox="0 0 14 15"
-                        fill="none"
-                        width="10"
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="button__icon-svg button__icon-svg--copy"
-                    >
-                        <path
-                            d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z"
-                            fill="currentColor"
-                        ></path>
-                    </svg>
-                </span>
-                Open Projects
-            </a>
         </section>
 
         <!-- About Me Section -->
@@ -255,13 +383,28 @@
                 <p>
                     💡 A self-learner at heart, I thrive on mastering new tools and staying ahead of design trends. My background in information technologies helps me tackle complex projects with clarity and efficiency, whether working solo or with a team.
                 </p>
-                <p>
-                    Outside of work, I'm passionate about sports, gaming, and exploring new cuisines with friends and family. I also have a deep appreciation for streetwear design, contemporary art, and architecture. 🔥
-                </p>
-                <p class="text-center font-bold text-2xl pt-8">
+                <p class="text-center font-bold text-1.7xl pt-6">
                     Let's create something amazing 💎 together! ✌️
                 </p>
             </div>
+        </section>
+
+        <!-- "Visit my projects" section -->
+        <section id="projects" class="flex flex-col items-start justify-center space-y-6 pt-16">
+            <h2 class="text-5xl sm:text-6xl md:text-7xl font-black tracking-tight text-left">
+                Visit my projects
+            </h2>
+            <a href="/projects" class="button" style="--clr: #B7F538">
+                <span class="button__icon-wrapper">
+                    <svg viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="button__icon-svg" width="10">
+                        <path d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z" fill="currentColor"></path>
+                    </svg>
+                    <svg viewBox="0 0 14 15" fill="none" width="10" xmlns="http://www.w3.org/2000/svg" class="button__icon-svg button__icon-svg--copy">
+                        <path d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z" fill="currentColor"></path>
+                        </svg>
+                    </span>
+                    Say Hello
+                </a>
         </section>
 
         <!-- Selected Clients Section -->
@@ -315,7 +458,8 @@
                             <img src="https://placehold.co/200x80/000000/FFFFFF?text=Instagram" alt="Instagram Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
                         </div>
                     </div>
-                     <div class="inline-flex space-x-8">
+                    <!-- Duplicate logos for the seamless scroll effect -->
+                    <div class="inline-flex space-x-8">
                         <div class="client-card">
                             <img src="https://placehold.co/200x80/000000/FFFFFF?text=Tencent" alt="Tencent Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
                         </div>
@@ -364,54 +508,103 @@
             </p>
         </section>
 
+        <!-- New 'Connect with me' Section -->
+        <section id="connect" class="space-y-12 py-16 text-center">
+            <h2 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight">Connect with me</h2>
+            <ul class="social-links">
+                <li class="icon-content">
+                    <!-- GitHub Button -->
+                    <a data-social="github" aria-label="GitHub" href="https://github.com/zidhu-xd/">
+                        <div class="filled"></div>
+                        <!-- GitHub SVG Icon -->
+                        <svg xml:space="preserve" viewBox="0 0 16 16" class="bi bi-github" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.23 0 .21.15.46.55.38C13.71 14.53 16 11.54 16 8c0-4.42-3.58-8-8-8z"></path>
+                        </svg>
+                    </a>
+                    <div class="tooltip">GitHub</div>
+                </li>
+            
+                <li class="icon-content">
+                    <!-- Instagram Button -->
+                    <a data-social="instagram" aria-label="Instagram" href="http://instagram.com/zidhuxd/">
+                        <div class="filled"></div>
+                        <!-- Instagram SVG Icon -->
+                        <svg xml:space="preserve" viewBox="0 0 16 16" class="bi bi-instagram" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="currentColor" d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"></path>
+                        </svg>
+                    </a>
+                    <div class="tooltip">Instagram</div>
+                </li>
+                
+                <li class="icon-content">
+                    <!-- Telegram Button -->
+                    <!-- TODO: Replace the href with your actual Telegram link -->
+                    <a data-social="telegram" aria-label="Telegram" href="https://t.me/your_username">
+                        <div class="filled"></div>
+                        <!-- Telegram SVG Icon -->
+                        <svg viewBox="0 0 100 100" class="telegram-icon" fill="currentColor" height="30" width="30" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M95,9.9c-1.3-1.1-3.4-1.2-7-0.1c0,0,0,0,0,0c-2.5,0.8-24.7,9.2-44.3,17.3c-17.6,7.3-31.9,13.7-33.6,14.5c-1.9,0.6-6,2.4-6.2,5.2c-0.1,1.8,1.4,3.4,4.3,4.7c3.1,1.6,16.8,6.2,19.7,7.1c1,3.4,6.9,23.3,7.2,24.5c0.4,1.8,1.6,2.8,2.2,3.2c0.1,0.1,0.3,0.3,0.5,0.4c0.3,0.2,0.7,0.3,1.2,0.3c0.7,0,1.5-0.3,2.2-0.8c3.7-3,10.1-9.7,11.9-11.6c7.9,6.2,16.5,13.1,17.3,13.9c0,0,0.1,0.1,0.1,0.1c1.9,1.6,3.9,2.5,5.7,2.5c0.6,0,1.2-0.1,1.8-0.3c2.1-0.7,3.6-2.7,4.1-5.4c0-0.1,0.1-0.5,0.3-1.2c3.4-14.8,6.1-27.8,8.3-38.7c2.1-10.7,3.8-21.2,4.8-26.8c0.2-1.4,0.4-2.5,0.5-3.2C96.3,13.5,96.5,11.2,95,9.9z M30,58.3l47.7-31.6c0.1-0.1,0.3-0.2,0.4-0.3c0,0,0,0,0,0c0.1,0,0.1-0.1,0.2-0.1c0.1,0,0.1,0,0.2-0.1c-0.1,0.1-0.2,0.4-0.4,0.6L66,38.1c-8.4,7.7-19.4,17.8-26.7,24.4c0,0,0,0,0,0.1c0,0-0.1,0.1-0.1,0.1c0,0,0,0.1-0.1,0.1c0,0.1,0,0.1-0.1,0.2c0,0,0,0.1,0,0.1c0,0,0,0,0,0.1c-0.5,5.6-1.4,15.2-1.8,19.5c0,0,0,0,0-0.1C36.8,81.4,31.2,62.3,30,58.3z"></path>
+                        </svg>
+                    </a>
+                    <div class="tooltip">Telegram</div>
+                </li>
+            </ul>
+        </section>
+
     </main>
 
-    <!-- Footer Section - Replicating the screenshot -->
+    <!-- Footer Section -->
     <footer id="contact" class="w-full max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center py-8 text-gray-500">
-        <p class="mb-4 md:mb-0">Made with ❤️ by ZidhuXD.</p>
-        <div class="flex space-x-6 text-sm">
-            <a href="http://instagram.com/zidhuxd/" class="hover:text-white transition-colors">Instagram</a>
-            <a href="https://github.com/zidhu-xd/" class="hover:text-white transition-colors">GitHub</a>
+        <!-- Animated text for the footer -->
+        <div class="flex items-center mb-4 md:mb-0 space-x-2">
+            <span id="drawing-text" class="text-white text-md text-drawing-effect">Made with ❤️ by ZidhuXD.</span>
         </div>
     </footer>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const menuButton = document.getElementById('menu-button');
-        const mobileNavMenu = document.getElementById('mobile-nav-menu');
-        const navLinks = mobileNavMenu.querySelectorAll('a');
+    <!-- JavaScript for Mobile Menu -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuButton = document.getElementById('menu-button');
+            const mobileNavMenu = document.getElementById('mobile-nav-menu');
+            const navLinks = mobileNavMenu.querySelectorAll('a');
+            const desktopNavLinks = document.getElementById('nav-menu-desktop');
+            
+            // Add 'Connect' link to desktop menu
+            const connectLinkDesktop = document.createElement('a');
+            connectLinkDesktop.href = '#connect';
+            connectLinkDesktop.className = 'text-gray-400 hover:text-white transition-colors';
+            connectLinkDesktop.textContent = 'Connect';
+            desktopNavLinks.insertBefore(connectLinkDesktop, desktopNavLinks.children[2]);
 
-        // Function to close the mobile menu
-        function closeMenu() {
-            mobileNavMenu.classList.remove('nav-menu-visible');
-            mobileNavMenu.classList.add('nav-menu-hidden');
-        }
-        
-        // Function to open the mobile menu
-        function openMenu() {
-            mobileNavMenu.classList.remove('nav-menu-hidden');
-            mobileNavMenu.classList.add('nav-menu-visible');
-        }
-
-        // Toggle the mobile menu on button click
-        menuButton.addEventListener('click', () => {
-            if (mobileNavMenu.classList.contains('nav-menu-hidden')) {
-                openMenu();
-            } else {
-                closeMenu();
+            // Function to close the mobile menu
+            function closeMenu() {
+                mobileNavMenu.classList.remove('nav-menu-visible');
+                mobileNavMenu.classList.add('nav-menu-hidden');
             }
-        });
+            
+            // Function to open the mobile menu
+            function openMenu() {
+                mobileNavMenu.classList.remove('nav-menu-hidden');
+                mobileNavMenu.classList.add('nav-menu-visible');
+            }
 
-        // Close the menu when a link is clicked
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                // Delay closing the menu to allow the scroll to happen
-                setTimeout(closeMenu, 150);
+            // Toggle the mobile menu on button click
+            menuButton.addEventListener('click', () => {
+                if (mobileNavMenu.classList.contains('nav-menu-hidden')) {
+                    openMenu();
+                } else {
+                    closeMenu();
+                }
+            });
+
+            // Close the menu when a link is clicked
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    // Delay closing the menu to allow the scroll to happen
+                    setTimeout(closeMenu, 150);
+                });
             });
         });
-    });
-</script>
-
+    </script>
 </body>
 </html>
-
