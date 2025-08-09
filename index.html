@@ -44,17 +44,61 @@
             gap: 2rem;
         }
 
-        /* Adding a pulse animation to the button */
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
+        /* Custom button styling from Uiverse */
+        .button {
+            line-height: 1;
+            text-decoration: none;
+            display: inline-flex;
+            border: none;
+            cursor: pointer;
+            align-items: center;
+            gap: 0.75rem;
+            background-color: var(--clr);
+            color: #fff;
+            border-radius: 10rem;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            padding-left: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: background-color 0.3s;
         }
-        .animate-pulse-slow {
-            animation: pulse 3s infinite ease-in-out;
+
+        .button__icon-wrapper {
+            flex-shrink: 0;
+            width: 25px;
+            height: 25px;
+            position: relative;
+            color: var(--clr);
+            background-color: #fff;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+        }
+
+        .button:hover {
+            background-color: #000;
+        }
+
+        .button:hover .button__icon-wrapper {
+            color: #000;
+        }
+
+        .button__icon-svg--copy {
+            position: absolute;
+            transform: translate(-150%, 150%);
+        }
+
+        .button:hover .button__icon-svg:first-child {
+            transition: transform 0.3s ease-in-out;
+            transform: translate(150%, -150%);
+        }
+
+        .button:hover .button__icon-svg--copy {
+            transition: transform 0.3s ease-in-out 0.1s;
+            transform: translate(0);
         }
     </style>
 </head>
@@ -88,8 +132,50 @@
     </header>
 
     <main class="w-full max-w-6xl mx-auto space-y-20 md:space-y-32 mt-20 md:mt-24">
+        <!-- Welcome Heading -->
+        <section class="flex flex-col items-start justify-center pt-16">
+            <h1 class="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight text-center md:text-left">
+                Welcome to ZIdhuXD Portal
+            </h1>
+        </section>
 
-        <!-- About Me Section - Based on your original code -->
+        <!-- "Visit my projects" section -->
+        <section id="projects" class="flex flex-col items-start justify-center space-y-6 pt-16">
+            <h2 class="text-5xl sm:text-6xl md:text-7xl font-black tracking-tight text-center md:text-left">
+                Visit my projects
+            </h2>
+            <a href="/projects" class="button" style="--clr: #B7F538">
+                <span class="button__icon-wrapper">
+                    <svg
+                        viewBox="0 0 14 15"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="button__icon-svg"
+                        width="10"
+                    >
+                        <path
+                            d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z"
+                            fill="currentColor"
+                        ></path>
+                    </svg>
+                    <svg
+                        viewBox="0 0 14 15"
+                        fill="none"
+                        width="10"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="button__icon-svg button__icon-svg--copy"
+                    >
+                        <path
+                            d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z"
+                            fill="currentColor"
+                        ></path>
+                    </svg>
+                </span>
+                Open Projects
+            </a>
+        </section>
+
+        <!-- About Me Section -->
         <section id="about" class="space-y-8 md:space-y-12 pt-16">
             <h1 class="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight text-center md:text-left">
                 About Me
@@ -111,55 +197,7 @@
             </div>
         </section>
 
-        <!-- Projects Showcase Section - Added with placeholders -->
-        <section id="projects" class="space-y-12">
-            <h2 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-center">
-                Featured Projects
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Placeholder Project Card 1 -->
-                <div class="bg-gray-900 rounded-2xl shadow-xl overflow-hidden group project-card relative">
-                    <img src="https://placehold.co/800x600/1F2937/FFFFFF?text=Project+1" alt="Placeholder project image" class="w-full h-auto rounded-t-2xl transform group-hover:scale-105 transition-transform duration-300">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-2">Project Title 1</h3>
-                        <p class="text-gray-400">A brief description of this project, highlighting key features and my role in its creation.</p>
-                    </div>
-                    <a href="#" class="project-overlay absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                        <span class="text-white text-lg font-bold p-4 border-2 border-white rounded-full">View Project</span>
-                    </a>
-                </div>
-                <!-- Placeholder Project Card 2 -->
-                <div class="bg-gray-900 rounded-2xl shadow-xl overflow-hidden group project-card relative">
-                    <img src="https://placehold.co/800x600/1F2937/FFFFFF?text=Project+2" alt="Placeholder project image" class="w-full h-auto rounded-t-2xl transform group-hover:scale-105 transition-transform duration-300">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-2">Project Title 2</h3>
-                        <p class="text-gray-400">This project demonstrates skills in motion graphics and visual storytelling.</p>
-                    </div>
-                    <a href="#" class="project-overlay absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                        <span class="text-white text-lg font-bold p-4 border-2 border-white rounded-full">View Project</span>
-                    </a>
-                </div>
-                <!-- Placeholder Project Card 3 -->
-                <div class="bg-gray-900 rounded-2xl shadow-xl overflow-hidden group project-card relative">
-                    <img src="https://placehold.co/800x600/1F2937/FFFFFF?text=Project+3" alt="Placeholder project image" class="w-full h-auto rounded-t-2xl transform group-hover:scale-105 transition-transform duration-300">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-2">Project Title 3</h3>
-                        <p class="text-gray-400">A collaborative effort showcasing technical proficiency and creative direction.</p>
-                    </div>
-                    <a href="#" class="project-overlay absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                        <span class="text-white text-lg font-bold p-4 border-2 border-white rounded-full">View Project</span>
-                    </a>
-                </div>
-            </div>
-            <!-- Call to action button -->
-            <div class="text-center mt-12">
-                <a href="#" class="inline-block bg-white text-black font-bold py-4 px-8 rounded-full shadow-lg transition-all duration-300 hover:bg-gray-200 animate-pulse-slow">
-                    View All Work
-                </a>
-            </div>
-        </section>
-
-        <!-- Selected Clients Section - Replicating the screenshot -->
+        <!-- Selected Clients Section -->
         <section id="clients" class="space-y-12 text-center py-16">
             <h2 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight">
                 Selected Clients
