@@ -47,7 +47,7 @@
             align-items: center;
             gap: 0.75rem;
             background-color: var(--clr);
-            color: #fff;
+            color: black;
             border-radius: 10rem;
             font-weight: 600;
             padding: 0.75rem 1.5rem;
@@ -55,7 +55,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         .button__icon-wrapper {
@@ -73,10 +73,21 @@
 
         .button:hover {
             background-color: #000;
+            color: white;
         }
 
         .button:hover .button__icon-wrapper {
             color: #000;
+        }
+
+        .button__icon-svg {
+            transition: all 0.3s ease-in-out;
+            fill: black;
+        }
+        
+        .button:hover .button__icon-svg {
+            transform: translateX(5px);
+            fill: white;
         }
 
         .button__icon-svg--copy {
@@ -161,7 +172,7 @@
     <!-- Header Section - Navigation Bar -->
     <header class="fixed top-0 left-0 right-0 z-50 bg-black bg-opacity-70 backdrop-blur-sm p-4 md:p-6 flex flex-col items-center">
         <nav class="w-full max-w-6xl flex justify-between items-center">
-            <a href="#" class="text-2xl font-black tracking-tighter">xD</a>
+            <a href="#" class="text-2xl font-black tracking-tighter">ZidhuXD</a>
             
             <!-- Hamburger menu button for mobile -->
             <button id="menu-button" class="md:hidden text-white focus:outline-none">
@@ -180,7 +191,7 @@
         <!-- Mobile navigation links (hidden by default) -->
         <div id="mobile-nav-menu" class="w-full mt-4 md:hidden nav-menu-transition nav-menu-hidden">
             <div class="flex flex-col items-end space-y-4">
-                <a href="/zidhuxdport/projects" class="text-gray-400 hover:text-white transition-colors text-xl">Projects</a>
+                <a href="#projects" class="text-gray-400 hover:text-white transition-colors text-xl">Projects</a>
                 <a href="#about" class="text-gray-400 hover:text-white transition-colors text-xl">About</a>
                 <a href="#contact" class="text-gray-400 hover:text-white transition-colors text-xl">Contact</a>
             </div>
@@ -190,8 +201,8 @@
     <main class="w-full max-w-6xl mx-auto space-y-20 md:space-y-32 mt-20 md:mt-24">
         <!-- Welcome Heading -->
         <section class="flex flex-col items-start justify-center pt-16">
-            <h1 class="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-center md:text-left">
-                Welcome to my portal
+            <h1 class="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight text-center md:text-left">
+                Welcome to ZIdhuXD Portal
             </h1>
         </section>
 
@@ -248,7 +259,7 @@
                     Outside of work, I'm passionate about sports, gaming, and exploring new cuisines with friends and family. I also have a deep appreciation for streetwear design, contemporary art, and architecture. 🔥
                 </p>
                 <p class="text-center font-bold text-2xl pt-8">
-                    Let's create something amazing ✌️
+                    Let's create something amazing 💎 together! ✌️
                 </p>
             </div>
         </section>
