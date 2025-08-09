@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ZidhuXD — Repo Explorer (Signature Theme)</title>
+
+<link href="https://fonts.googleapis.com/css2?famil
+    --accent3:#8bffa6;
+    --glow: 0 6px 28px rgba(0,255,209,0.06), 0 0 48px rgba(124,255,0,0y=JetBrains+Mono:wght@300;400;700&family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#040405;
+    --panel:#060607;
+    --muted:#889099;
+    --accent1:#00ffd1;
+    --accent2:#7cff00;.02);
+    --glass: rgba(255,255,255,0.02);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 10% 10%, rgba(0,255,209,0.02), transparent 8%),
+      radial-gradient(800px 400px at 90% 90%, rgba(124,255,0,0.02), transparent 6%),
+      linear-gradient(180deg,#030305,#040406 60%,#070707);
+    color:#e6eef6;
+    font-family: "JetBrains Mono", monospace;
+    padding:28px;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+
+  /* layout */
+  .wrap{
+    max-width:1150px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns: 1fr 420px;
+    gap:18px;
+    align-items:start;
+  }
+
+  .panel{
+    background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.03);
+    padding:18px;
+    border-radius:10px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6), var(--glow);
+    backdrop-filter: blur(6px);
+  }
+
+  header{display:flex;gap:14px;align-items:center;margin-bottom:12px}
+  .logo{width:58px;height:58px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#001f1a,#001323);border:1px solid rgba(0,255,209,0.06)}
+  .logo h1{margin:0;font-size:18px;color:var(--accent1);letter-spacing:1px}
+  h2{margin:0;font-weight:700;color:var(--accent2);font-size:18px}
+  .meta{flex:1}
+  .meta small{color:var(--muted)}
+
+  nav.breadcrumb{font-size:13px;margin:12px 0;color:var(--muted)}
+  nav.breadcrumb span{cursor:pointer}
+  nav.breadcrumb .sep{color:#222;margin:0 8px}
+
+  .file-list{border-radius:8px;padding:8px;min-height:260px;border:1px solid rgba(255,255,255,0.02);overflow:auto}
+  .row{display:flex;gap:12px;align-items:center;padding:9px;border-radius:6px;transition:all .12s ease}
+  .row:hover{background: rgba(255,255,255,0.01); transform: translateY(-1px);}
+
+  .icon{width:44px;height:44px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.02);font-size:20px}
+  .filename{flex:1;font-size:13px}
+  .meta-sm{font-size:12px;color:var(--muted)}
+
+  .btns{display:flex;gap:8px}
+  .btn{padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--accent1);cursor:pointer;font-weight:600;font-size:13px;transition:transform .12s ease, box-shadow .12s ease}
+  .btn:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,255,209,0.04)}
+  .btn.danger{color:#ff7a7a;border-color:rgba(255,122,122,0.04)}
+
+  /* Animated download button (big) */
+  .download-cta{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg, rgba(0,255,209,0.05), rgba(124,255,0,0.02));border:1px solid rgba(0,255,209,0.08);color:var(--accent1);font-weight:700;cursor:pointer;box-shadow: var(--glow)}
+  .download-cta .dot{width:10px;height:10px;border-radius:50%;background:var(--accent1);box-shadow:0 0 8px var(--accent1),0 0 18px rgba(0,255,209,0.06);animation:blink 1.6s infinite}
+  @keyframes blink{0%{opacity:1}50%{opacity:.25}100%{opacity:1}}
+
+  /* Preview pane */
+  .preview-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .preview-body{background:#060606;border-radius:8px;padding:12px;min-height:360px;border:1px solid rgba(255,255,255,0.02);overflow:auto}
+  pre{white-space:pre-wrap;word-break:break-word;font-size:12px;line-height:1.45;color:#dfffe9}
+  .preview-empty{color:var(--muted);font-size:13px;padding:26px;text-align:center}
+  img.preview-img{max-width:100%;height:auto;border-radius:6px;display:block;margin:10px auto}
+
+  .small{font-size:12px;color:var(--muted)}
+
+  /* modal */
+  .modal{position:fixed;left:0;top:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:9999;backdrop-filter: blur(2px)}
+  .modal-card{background:var(--panel);padding:20px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);max-width:420px;width:100%}
+  .input{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#fff;margin-top:8px}
+  .row-center{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+  .hint{font-size:12px;color:var(--muted);margin-top:8px}
+  footer.small{margin-top:12px;text-align:center;color:var(--muted)}
+
+  /* signature */
+  .signature{position:fixed;right:26px;bottom:26px;font-family:Pacifico, cursive;color:var(--accent3);font-size:20px;opacity:0.95;pointer-events:none;text-shadow:0 2px 12px rgba(0,0,0,0.6)}
+
+  /* github corner */
+  .github-corner{position:fixed;right:0;top:0}
+  .github-corner svg{fill:transparent;color:var(--muted);mix-blend-mode:screen}
+
+  /* responsive */
+  @media (max-width:980px){.wrap{grid-template-columns:1fr;padding-bottom:40px}.preview-body{min-height:220px}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="panel">
+    <header>
+      <div class="logo"><h1>Z</h1></div>
+      <div class="meta">
+        <h2>ZidhuXD — Repo Explorer</h2>
+        <small>owner: <strong>zidhu-xd</strong> · repo: <strong>zidhuxdport</strong> · branch: <strong>main</strong></small>
+      </div>
+      <div style="text-align:right">
+        <div class="download-cta" id="repoRefresh" title="Refresh">
+          <span class="dot"></span>
+          <span style="font-size:13px">Live</span>
+        </div>
+      </div>
+    </header>
+
+    <nav class="breadcrumb" id="breadcrumb"></nav>
+
+    <div class="file-list" id="fileList">
+      <!-- rows inserted here -->
+    </div>
+
+    <footer class="small">
+      Tip: open via Live Server / python -m http.server. API rate limit: 60 req/hr (unauthenticated).
+    </footer>
+  </div>
+
+  <!-- Preview panel -->
+  <aside class="panel">
+    <div class="preview-header">
+      <div>
+        <div style="font-weight:700;color:var(--accent2)" id="previewTitle">Preview</div>
+        <div class="small" id="previewPath">No file selected</div>
+      </div>
+      <div id="previewActions">
+        <!-- will show file actions -->
+      </div>
+    </div>
+
+    <div class="preview-body" id="previewBody">
+      <div class="preview-empty">Select a file and click <strong>Preview</strong> to show its contents here. Images are rendered. Downloads require password.</div>
+    </div>
+  </aside>
+</div>
+
+<!-- password modal -->
+<div id="passwordModal" style="display:none" class="modal" aria-hidden="true">
+  <div class="modal-card">
+    <div style="font-weight:800;color:var(--accent1)">Password required</div>
+    <div class="small hint">Enter the download passcode to open the raw file.</div>
+    <input id="passwordInput" class="input" placeholder="Enter password" />
+    <div class="row-center">
+      <button class="btn" id="pwdCancel">Cancel</button>
+      <button class="btn danger" id="pwdOk">Proceed</button>
+    </div>
+  </div>
+</div>
+
+<!-- faint handwritten signature -->
+<div class="signature">— ZidhuXD</div>
+
+<!-- GitHub corner -->
+<a class="github-corner" href="https://github.com/zidhu-xd/zidhuxdport" aria-label="View source on GitHub" target="_blank">
+  <svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true">
+    <path d="M0 0l115 115h15l12 27 108 108V0z"></path>
+    <path d="M128 109c-15-7-8-25 3-27 4-1 7-2 4-7-3-5-13-8-19-7-6 1-10 2-14 2-4 0-8-3-8-3s3 8 9 10c7 2 12 7 12 7s-6 2-14 4c-8 2-17 8-19 13-2 5 0 10 6 12 6 1 12-2 12-2s2 6 1 10c-1 4-6 9-6 9s10-3 18-8c8-5 13-9 14-14 1-5-1-9-5-12z" fill="currentColor"></path>
+  </svg>
+</a>
+
+<script>
+/*
+  Repo Explorer (signature theme)
+  - Single-file, dark aesthetic
+  - Keeps same functionality as original
+*/
+const OWNER = 'zidhu-xd';
+const REPO = 'zidhuxdport';
+const BRANCH = 'main';
+const PASSWORD = '1928';
+const GITHUB_TOKEN = '';
+
+const apiBase = `https://api.github.com/repos/${OWNER}/${REPO}/contents`;
+const rawBase = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/`;
+
+const fileListEl = document.getElementById('fileList');
+const breadcrumbEl = document.getElementById('breadcrumb');
+const previewTitle = document.getElementById('previewTitle');
+const previewPath = document.getElementById('previewPath');
+const previewBody = document.getElementById('previewBody');
+const previewActions = document.getElementById('previewActions');
+const passwordModal = document.getElementById('passwordModal');
+const passwordInput = document.getElementById('passwordInput');
+const pwdCancel = document.getElementById('pwdCancel');
+const pwdOk = document.getElementById('pwdOk');
+let currentPath = '';
+let lastClickedRaw = null;
+
+async function ghFetch(url){
+  const headers = {};
+  if (GITHUB_TOKEN) headers['Authorization'] = 'token ' + GITHUB_TOKEN;
+  const res = await fetch(url, {headers});
+  if (!res.ok) throw new Error('GitHub API error: ' + res.status + ' ' + res.statusText);
+  return res.json();
+}
+
+async function listPath(path){
+  const url = `${apiBase}/${encodeURIComponent(path || '')}?ref=${BRANCH}`;
+  try{
+    const data = await ghFetch(url);
+    renderList(Array.isArray(data) ? data : []);
+  }catch(err){
+    fileListEl.innerHTML = `<div class="small" style="padding:12px;color:#ffb6b6">Failed to fetch: ${err.message}</div>`;
+  }
+}
+
+function updateBreadcrumb(){
+  if (!currentPath){
+    breadcrumbEl.innerHTML = `<span style="color:var(--accent1);font-weight:700;cursor:pointer" onclick="goRoot()">/</span>`;
+    return;
+  }
+  const parts = currentPath.split('/');
+  let html = `<span style="color:var(--accent1);font-weight:700;cursor:pointer" onclick="goRoot()">/</span>`;
+  let acc = '';
+  parts.forEach((p,i)=>{
+    acc += (i?'/':'')+p;
+    html += `<span class="sep">/</span><span onclick="navigateTo('${acc.replace(/'/g,"\\'")}')" style="cursor:pointer;color:var(--muted)">${p}</span>`;
+  });
+  breadcrumbEl.innerHTML = html;
+}
+
+function renderList(items){
+  items.sort((a,b)=>{
+    if (a.type === b.type) return a.name.localeCompare(b.name, undefined, {numeric:true});
+    return a.type === 'dir' ? -1 : 1;
+  });
+  fileListEl.innerHTML = '';
+  if (items.length === 0){
+    fileListEl.innerHTML = `<div class="small" style="padding:18px;color:var(--muted)">Empty folder</div>`;
+    return;
+  }
+  items.forEach(item=>{
+    const row = document.createElement('div');
+    row.className = 'row';
+    // simple size display for files (if available)
+    const size = item.size ? ` · ${formatBytes(item.size)}` : '';
+    row.innerHTML = `
+      <div class="icon">${item.type === 'dir' ? '📁' : '📄'}</div>
+      <div class="filename">
+        <div style="font-weight:700">${item.name}</div>
+        <div class="meta-sm">${item.type}${size} · ${item.path}</div>
+      </div>
+      <div class="btns">
+        ${item.type === 'dir' 
+          ? `<button class="btn" onclick="navigateTo('${item.path.replace(/'/g,"\\'")}')">Open</button>`
+          : `<button class="btn" onclick="previewFile('${item.path.replace(/'/g,"\\'")}','${item.name.replace(/'/g,"\\'")}')">Preview</button>
+             <button class="btn danger" onclick="prepareDownload('${item.path.replace(/'/g,"\\'")}')">Download</button>`
+        }
+      </div>
+    `;
+    fileListEl.appendChild(row);
+  });
+  updateBreadcrumb();
+}
+
+function navigateTo(path){currentPath = path;listPath(currentPath);clearPreview();}
+function goRoot(){currentPath = '';listPath('');clearPreview();}
+
+async function previewFile(path, name){
+  previewTitle.textContent = 'Preview — ' + name;
+  previewPath.textContent = path;
+  previewBody.innerHTML = `<div class="small" style="padding:14px;color:var(--muted)">Loading preview...</div>`;
+  previewActions.innerHTML = `<button class="btn danger" onclick="prepareDownload('${path.replace(/'/g,"\\'")}')">Download</button>`;
+
+  const rawUrl = rawBase + encodeURIComponent(path).replace(/%2F/g,'/');
+  try{
+    const res = await fetch(rawUrl);
+    if (!res.ok) throw new Error('Failed to fetch raw: ' + res.status);
+    const ct = res.headers.get('content-type') || '';
+
+    if (ct.startsWith('image/')){
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      previewBody.innerHTML = `<img class="preview-img" src="${url}" alt="${name}">`;
+    } else {
+      const text = await res.text();
+      const MAX = 200000;
+      const showText = text.length > MAX ? text.slice(0,MAX) + '\n\n--- preview truncated ---' : text;
+      previewBody.innerHTML = `<pre>${escapeHtml(showText)}</pre>`;
+    }
+    lastClickedRaw = rawUrl;
+  }catch(err){
+    previewBody.innerHTML = `<div class="small" style="padding:12px;color:#ffb6b6">Preview failed: ${err.message}</div>`;
+  }
+}
+
+function prepareDownload(path){lastClickedRaw = rawBase + encodeURIComponent(path).replace(/%2F/g,'/');showPasswordModal();}
+function showPasswordModal(){passwordInput.value = '';passwordModal.style.display = 'flex';passwordModal.setAttribute('aria-hidden','false');passwordInput.focus();}
+function hidePasswordModal(){passwordModal.style.display = 'none';passwordModal.setAttribute('aria-hidden','true');}
+
+pwdCancel.addEventListener('click', ()=> hidePasswordModal());
+pwdOk.addEventListener('click', ()=> {const val = passwordInput.value.trim();if (val === PASSWORD){hidePasswordModal();if (lastClickedRaw) window.open(lastClickedRaw, '_blank');else alert('No file selected to download.');} else {alert('Incorrect password');}});
+passwordInput.addEventListener('keydown', (e)=>{ if (e.key === 'Enter') pwdOk.click(); });
+
+function escapeHtml(s){return s.replace(/[&<>\"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"\"":'&quot;','\'':'&#39;'})[c]);}
+function clearPreview(){previewTitle.textContent = 'Preview';previewPath.textContent = 'No file selected';previewBody.innerHTML = `<div class="preview-empty">Select a file and click <strong>Preview</strong> to show its contents here. Images are rendered. Downloads require password.</div>`;previewActions.innerHTML = '';lastClickedRaw = null;}
+
+function formatBytes(bytes){ if (!bytes) return '0 B'; const sizes = ['B','KB','MB','GB','TB']; const i = Math.floor(Math.log(bytes)/Math.log(1024)); return Math.max(0, (bytes/Math.pow(1024,i)).toFixed(1)) + ' ' + sizes[i]; }
+
+// init
+listPath('');updateBreadcrumb();
+
+// refresh
+document.getElementById('repoRefresh').addEventListener('click', ()=>{listPath(currentPath);} );
+
+// keyboard: Refresh with R when focus not in input
+window.addEventListener('keydown', (e)=>{ if (['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) return; if (e.key.toLowerCase() === 'r') { document.getElementById('repoRefresh').classList.add('pulse'); listPath(currentPath); setTimeout(()=>document.getElementById('repoRefresh').classList.remove('pulse'),300); } });
+
+</script>
+
+</body>
+</html>
