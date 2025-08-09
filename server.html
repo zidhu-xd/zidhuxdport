@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>ZidhuXD — Repo Explorer (Signature Theme)</title>
 
-<link href="https://fonts.googleapis.com/css2?famil
-    --accent3:#8bffa6;
-    --glow: 0 6px 28px rgba(0,255,209,0.06), 0 0 48px rgba(124,255,0,0y=JetBrains+Mono:wght@300;400;700&family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Pacifico&display=swap" rel="stylesheet">
 
 <style>
   :root{
@@ -15,7 +13,9 @@
     --panel:#060607;
     --muted:#889099;
     --accent1:#00ffd1;
-    --accent2:#7cff00;.02);
+    --accent2:#7cff00;
+    --accent3:#8bffa6;
+    --glow: 0 6px 28px rgba(0,255,209,0.06), 0 0 48px rgba(124,255,0,0.02);
     --glass: rgba(255,255,255,0.02);
   }
   *{box-sizing:border-box}
@@ -28,7 +28,7 @@
       linear-gradient(180deg,#030305,#040406 60%,#070707);
     color:#e6eef6;
     font-family: "JetBrains Mono", monospace;
-    padding:28px;
+    padding:18px;
     -webkit-font-smoothing:antialiased;
     -moz-osx-font-smoothing:grayscale;
   }
@@ -63,7 +63,7 @@
   nav.breadcrumb span{cursor:pointer}
   nav.breadcrumb .sep{color:#222;margin:0 8px}
 
-  .file-list{border-radius:8px;padding:8px;min-height:260px;border:1px solid rgba(255,255,255,0.02);overflow:auto}
+  .file-list{border-radius:8px;padding:8px;min-height:360px;border:1px solid rgba(255,255,255,0.02);overflow:auto}
   .row{display:flex;gap:12px;align-items:center;padding:9px;border-radius:6px;transition:all .12s ease}
   .row:hover{background: rgba(255,255,255,0.01); transform: translateY(-1px);}
 
@@ -106,7 +106,15 @@
   .github-corner svg{fill:transparent;color:var(--muted);mix-blend-mode:screen}
 
   /* responsive */
-  @media (max-width:980px){.wrap{grid-template-columns:1fr;padding-bottom:40px}.preview-body{min-height:220px}}
+  @media (max-width:980px){
+    /* make file list take full screen on mobile and hide preview panel */
+    body{padding:10px}
+    .wrap{grid-template-columns:1fr;gap:10px}
+    aside.panel{display:none !important}
+    .file-list{min-height:calc(100vh - 160px);border-radius:8px}
+    .signature{display:none}
+    .download-cta{padding:8px 10px}
+  }
 </style>
 </head>
 <body>
@@ -138,7 +146,7 @@
     </footer>
   </div>
 
-  <!-- Preview panel -->
+  <!-- Preview panel (hidden on mobile) -->
   <aside class="panel">
     <div class="preview-header">
       <div>
@@ -184,7 +192,8 @@
 /*
   Repo Explorer (signature theme)
   - Single-file, dark aesthetic
-  - Keeps same functionality as original
+  - On mobile: preview pane hidden and file list becomes full-screen
+  - On mobile: "Preview" button replaced with "Open" (raw) + Download
 */
 const OWNER = 'zidhu-xd';
 const REPO = 'zidhuxdport';
@@ -207,6 +216,8 @@ const pwdCancel = document.getElementById('pwdCancel');
 const pwdOk = document.getElementById('pwdOk');
 let currentPath = '';
 let lastClickedRaw = null;
+
+function isMobileLayout(){ return window.matchMedia('(max-width:980px)').matches; }
 
 async function ghFetch(url){
   const headers = {};
@@ -236,12 +247,14 @@ function updateBreadcrumb(){
   let acc = '';
   parts.forEach((p,i)=>{
     acc += (i?'/':'')+p;
-    html += `<span class="sep">/</span><span onclick="navigateTo('${acc.replace(/'/g,"\\'")}')" style="cursor:pointer;color:var(--muted)">${p}</span>`;
+    // escape single quotes so we can safely insert into an onclick single-quoted JS arg
+    html += `<span class="sep">/</span><span onclick="navigateTo('${acc.replace(/'/g,"\'")}')" style="cursor:pointer;color:var(--muted)">${p}</span>`;
   });
   breadcrumbEl.innerHTML = html;
 }
 
 function renderList(items){
+  const mobile = isMobileLayout();
   items.sort((a,b)=>{
     if (a.type === b.type) return a.name.localeCompare(b.name, undefined, {numeric:true});
     return a.type === 'dir' ? -1 : 1;
@@ -254,35 +267,70 @@ function renderList(items){
   items.forEach(item=>{
     const row = document.createElement('div');
     row.className = 'row';
-    // simple size display for files (if available)
     const size = item.size ? ` · ${formatBytes(item.size)}` : '';
-    row.innerHTML = `
-      <div class="icon">${item.type === 'dir' ? '📁' : '📄'}</div>
-      <div class="filename">
-        <div style="font-weight:700">${item.name}</div>
-        <div class="meta-sm">${item.type}${size} · ${item.path}</div>
-      </div>
-      <div class="btns">
-        ${item.type === 'dir' 
-          ? `<button class="btn" onclick="navigateTo('${item.path.replace(/'/g,"\\'")}')">Open</button>`
-          : `<button class="btn" onclick="previewFile('${item.path.replace(/'/g,"\\'")}','${item.name.replace(/'/g,"\\'")}')">Preview</button>
-             <button class="btn danger" onclick="prepareDownload('${item.path.replace(/'/g,"\\'")}')">Download</button>`
-        }
-      </div>
-    `;
+
+    // for mobile: replace Preview with Open (raw) so preview pane is not used
+    if (item.type === 'dir'){
+      row.innerHTML = `
+        <div class="icon">📁</div>
+        <div class="filename">
+          <div style="font-weight:700">${item.name}</div>
+          <div class="meta-sm">${item.type}${size} · ${item.path}</div>
+        </div>
+        <div class="btns">
+          <button class="btn" onclick="navigateTo('${item.path.replace(/'/g,"\'")}')">Open</button>
+        </div>
+      `;
+    } else {
+      const rawUrl = rawBase + encodeURIComponent(item.path).replace(/%2F/g,'/');
+      if (mobile){
+        row.innerHTML = `
+          <div class="icon">📄</div>
+          <div class="filename">
+            <div style="font-weight:700">${item.name}</div>
+            <div class="meta-sm">${item.type}${size} · ${item.path}</div>
+          </div>
+          <div class="btns">
+            <button class="btn" onclick="openRaw('${item.path.replace(/'/g,"\'")}')">Open</button>
+            <button class="btn danger" onclick="prepareDownload('${item.path.replace(/'/g,"\'")}')">Download</button>
+          </div>
+        `;
+      } else {
+        row.innerHTML = `
+          <div class="icon">📄</div>
+          <div class="filename">
+            <div style="font-weight:700">${item.name}</div>
+            <div class="meta-sm">${item.type}${size} · ${item.path}</div>
+          </div>
+          <div class="btns">
+            <button class="btn" onclick="previewFile('${item.path.replace(/'/g,"\'")}','${item.name.replace(/'/g,"\'")}')">Preview</button>
+            <button class="btn danger" onclick="prepareDownload('${item.path.replace(/'/g,"\'")}')">Download</button>
+          </div>
+        `;
+      }
+    }
+
     fileListEl.appendChild(row);
   });
   updateBreadcrumb();
+}
+
+function openRaw(path){
+  const rawUrl = rawBase + encodeURIComponent(path).replace(/%2F/g,'/');
+  window.open(rawUrl, '_blank');
 }
 
 function navigateTo(path){currentPath = path;listPath(currentPath);clearPreview();}
 function goRoot(){currentPath = '';listPath('');clearPreview();}
 
 async function previewFile(path, name){
+  // if mobile layout, bypass preview and open raw instead
+  if (isMobileLayout()){ openRaw(path); return; }
+
   previewTitle.textContent = 'Preview — ' + name;
   previewPath.textContent = path;
   previewBody.innerHTML = `<div class="small" style="padding:14px;color:var(--muted)">Loading preview...</div>`;
-  previewActions.innerHTML = `<button class="btn danger" onclick="prepareDownload('${path.replace(/'/g,"\\'")}')">Download</button>`;
+  previewActions.innerHTML = `<button class="btn danger" onclick="prepareDownload('${path.replace(/'/g,"\'")}')">Download</button>`;
 
   const rawUrl = rawBase + encodeURIComponent(path).replace(/%2F/g,'/');
   try{
@@ -297,7 +345,9 @@ async function previewFile(path, name){
     } else {
       const text = await res.text();
       const MAX = 200000;
-      const showText = text.length > MAX ? text.slice(0,MAX) + '\n\n--- preview truncated ---' : text;
+      // ensure the truncation string is a single-line JS string (escape newlines)
+      const trunc = "\n\n--- preview truncated ---";
+      const showText = text.length > MAX ? text.slice(0,MAX) + trunc : text;
       previewBody.innerHTML = `<pre>${escapeHtml(showText)}</pre>`;
     }
     lastClickedRaw = rawUrl;
@@ -314,7 +364,10 @@ pwdCancel.addEventListener('click', ()=> hidePasswordModal());
 pwdOk.addEventListener('click', ()=> {const val = passwordInput.value.trim();if (val === PASSWORD){hidePasswordModal();if (lastClickedRaw) window.open(lastClickedRaw, '_blank');else alert('No file selected to download.');} else {alert('Incorrect password');}});
 passwordInput.addEventListener('keydown', (e)=>{ if (e.key === 'Enter') pwdOk.click(); });
 
-function escapeHtml(s){return s.replace(/[&<>\"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"\"":'&quot;','\'':'&#39;'})[c]);}
+function escapeHtml(s){
+  const map = {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'};
+  return String(s).replace(/[&<>"']/g, c => map[c]);
+}
 function clearPreview(){previewTitle.textContent = 'Preview';previewPath.textContent = 'No file selected';previewBody.innerHTML = `<div class="preview-empty">Select a file and click <strong>Preview</strong> to show its contents here. Images are rendered. Downloads require password.</div>`;previewActions.innerHTML = '';lastClickedRaw = null;}
 
 function formatBytes(bytes){ if (!bytes) return '0 B'; const sizes = ['B','KB','MB','GB','TB']; const i = Math.floor(Math.log(bytes)/Math.log(1024)); return Math.max(0, (bytes/Math.pow(1024,i)).toFixed(1)) + ' ' + sizes[i]; }
@@ -327,6 +380,10 @@ document.getElementById('repoRefresh').addEventListener('click', ()=>{listPath(c
 
 // keyboard: Refresh with R when focus not in input
 window.addEventListener('keydown', (e)=>{ if (['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) return; if (e.key.toLowerCase() === 'r') { document.getElementById('repoRefresh').classList.add('pulse'); listPath(currentPath); setTimeout(()=>document.getElementById('repoRefresh').classList.remove('pulse'),300); } });
+
+// re-render on resize to update mobile/desktop buttons
+let resizeDebounce;
+window.addEventListener('resize', ()=>{ clearTimeout(resizeDebounce); resizeDebounce = setTimeout(()=>{ listPath(currentPath); },200); });
 
 </script>
 
