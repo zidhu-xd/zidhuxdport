@@ -38,6 +38,27 @@
         */
         
         /* Custom button styling from Uiverse */
+        .p5 {
+            color: #ff0000;
+            font-weight: bold;
+            overflow: hidden;
+            border-right: 2px solid #B7F538;
+            white-space: nowrap;
+            width: 0;
+            animation: typing 3s steps(18) forwards, blink 1s infinite;
+            }
+
+            @keyframes typing {
+                from { width: 0; }
+                to { width: 40%; }
+            }
+
+            @keyframes blink {
+                0%, 50% { border-color: #B7F538; }
+                51%, 100% { border-color: transparent; }
+            }
+          }
+
         .button {
             line-height: 1;
             text-decoration: none;
@@ -231,7 +252,7 @@
             top: -30px;
             left: 50%;
             transform: translateX(-50%);
-            color: #fff;
+            color: #ffffff;
             padding: 6px 10px;
             border-radius: 15px;
             opacity: 0;
@@ -256,7 +277,7 @@
             width: 50px;
             height: 50px;
             border-radius: 20%;
-            color: #4d4d4d;
+            color: #333333;
             background-color: #fff;
             transition: all 0.3s ease-in-out;
             text-decoration: none;
@@ -302,11 +323,11 @@
         .social-links a[data-social="instagram"] ~ .tooltip {
             background: linear-gradient(
                 45deg,
-                #405de6,
-                #5b51db,
-                #b33ab4,
-                #c135b4,
-                #e1306c,
+                #ff0000,
+                #f60000,
+                #ff0000,
+                #ff0000,
+                #ff0000,
                 #fd1f1f
             );
         }
@@ -314,7 +335,7 @@
         /* Telegram */
         .social-links .icon-content a[data-social="telegram"] .filled,
         .social-links .icon-content a[data-social="telegram"] ~ .tooltip {
-            background-color: #0088cc;
+            background-color: #0685c5;
         }
         
         /* Added a class for the new section heading */
@@ -337,7 +358,7 @@
                 <div id="nav-menu-desktop" class="hidden md:flex space-x-4 md:space-x-8">
                     <a href="/projects" class="text-gray-400 hover:text-white transition-colors">Projects</a>
                     <a href="#about" class="text-gray-400 hover:text-white transition-colors">About</a>
-                    <a href="#clients" class="text-gray-400 hover:text-white transition-colors">Clients</a>
+              
                     <a href="#connect" class="text-gray-400 hover:text-white transition-colors">Connect</a>
                 </div>
                 
@@ -367,8 +388,7 @@
             <div class="flex flex-col items-end space-y-4">
                 <a href="/projects" class="text-gray-400 hover:text-white transition-colors text-xl">Projects</a>
                 <a href="#about" class="text-gray-400 hover:text-white transition-colors text-xl">About</a>
-                <a href="#clients" class="text-gray-400 hover:text-white transition-colors text-xl">Clients</a>
-                <a href="#connect" class="text-gray-400 hover:text-white transition-colors text-xl">Connect</a>
+                
                 <a href="#contact" class="text-gray-400 hover:text-white transition-colors text-xl">Contact</a>
             </div>
         </div>
@@ -387,16 +407,17 @@
             <h1 class="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight text-left">
                 About Me
             </h1>
-            <div class="space-y-6 text-lg md:text-xl leading-relaxed max-w-4xl">
-                <p>
-                    👋 I'm Sidharth! 😎<br><br>
-                    I started my creative journey ✏️ from my sweet home, India, later transitioning into motion design after moving to LA. Since then, I've brought ideas to life through captivating motion, ✨collaborating with brands across technology, gaming, and more.
-                </p>
-                <p>
-                    💡 A self-learner at heart, I thrive on mastering new tools and staying ahead of design trends. My background in information technologies helps me tackle complex projects with clarity and efficiency, whether working solo or with a team.
-                </p>
+            <div class="space-y-4 text-lg md:text-xl leading-relaxed max-w-3xl">
+               <p>I’m a tech nerd from Kerala, India.</p>
+  <p>My journey began during the COVID lockdown when I suddenly had lots of time to spend with computers and Android devices. I was always curious about how these gadgets worked — what really happens behind the scenes when we tap a button on the screen?</p>
+  <p>That curiosity sparked a passion to learn more about how things function and how we can modify them to suit our needs.</p>
+  <p>I know I’m still a beginner, but over the years, this craze has taught me an important lesson<br>
+  <p class="p5">"Never give up."</p>
+  <p>I’ve failed many times. I’ve lost countless hours, some people, and even money. But life showed me that if you truly want something, you have to work hard for it — no matter who’s with you or what tomorrow brings.</p>
+  <p>So here I am, still trying, still learning, and always pushing forward. :)</p>
+                    
                 <p class="text-center font-bold text-1.7xl pt-6">
-                    Let's create something amazing 💎 together! ✌️
+                    Let's create something amazing, for everyone for everything   ✌️
                 </p>
             </div>
         </section>
@@ -419,6 +440,31 @@
                 </a>
         </section>
 
+<<<<<<< HEAD
+      <!-- Highlights Section -->
+      <section id="highlights" class="space-y-8 pt-16">
+          <h2 class="text-5xl sm:text-6xl md:text-7xl font-black tracking-tight text-left">
+        Highlights
+          </h2>
+          <div class="space-y-6 text-lg md:text-xl leading-relaxed max-w-4xl">
+        <p>
+            I have completed various online courses and certifications to enhance my skills in motion design, animation, and related fields. Here are some of the notable ones:
+        </p>
+        <div class="flex flex-col items-center gap-5 mb-8 text-center">
+            <img src="/certi.png" alt="Professional Certificate" class="w-full max-w-1xl h-auto rounded-lg object-contain border-2 border-gray-700 hover:border-[#B7F538] transition-colors duration-300">
+            <div>
+          <ul class="text-white-400 space-y-1">
+              <li>Certificate issued by GitHub Spark Team for my contributions to GitHub Spark</li>
+
+          </ul>
+            </div>
+        </div>
+          </div>
+      </section>
+                </ul>
+            </div>
+
+=======
       <!-- Highlights Section -->
       <section id="highlights" class="space-y-8 pt-16">
           <h2 class="text-5xl sm:text-6xl md:text-7xl font-black tracking-tight text-left">
@@ -444,6 +490,7 @@
                 </ul>
             </div>
 
+>>>>>>> d56b6c3cfbc3607123777840b07a5d5844d80a6f
         <!-- Selected Clients Section -->
         <section id="clients" class="space-y-12 py-16">
             <h2 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-left">
@@ -495,7 +542,7 @@
                             <img src="https://placehold.co/200x80/000000/FFFFFF?text=Instagram" alt="Instagram Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
                         </div>
                     </div>
-                    <!-- Duplicate logos for the seamless scroll effect -->
+                    <!-- Duplicate logos for the seamless scrkjoll effect -->
                     <div class="inline-flex space-x-8">
                         <div class="client-card">
                             <img src="https://placehold.co/200x80/000000/FFFFFF?text=Tencent" alt="Tencent Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
