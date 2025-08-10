@@ -155,77 +155,107 @@
     box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
   }
 
-  /* Enhanced PIN Modal */
+  /* PIN Modal Styles (Reworked) */
   .modal {
     display: none;
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.92);
     z-index: 1000;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(7px);
   }
-
+  .modal.visible {
+    display: flex;
+  }
   .modal-content {
-    background: linear-gradient(145deg, #1cda07d5, #23c609);
-    padding: 2rem;
-    border-radius: 30px;
-    width: 100%;
-    max-width: 350px;
-    border: 1px solid rgba(0, 255, 136, 0.2);
-    box-shadow: 0 10px 30px rgba(0, 255, 136, 0.1);
+    position: relative;
+    background: #141414;
+    color: #fff;
+    padding: 2.1rem 2rem 2rem 2rem;
+    border-radius: 22px;
+    width: 94vw;
+    max-width: 360px;
+    border: 1px solid #242424;
+    box-shadow: 0 10px 36px 0 #000c, 0 1.5px 6px #00ff8855;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-
+  .close-modal-btn {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    font-size: 1.4rem;
+    color: #fff;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    z-index: 10;
+  }
+  .close-modal-btn:hover {
+    opacity: 1;
+    color: #ff3860;
+    transform: scale(1.1);
+  }
   .modal-title {
-    color: var(--success);
-    margin-bottom: 1.5rem;
-    font-size: 1.3rem;
-    font-weight: 600;
+    color: #fff;
+    margin-bottom: 1.4rem;
+    font-size: 1.28rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    text-shadow: 0 1px 7px #0008;
   }
-
   .pin-input {
     width: 100%;
     padding: 1rem;
-    background-color: rgba(0, 0, 0, 0.3);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    color: white;
+    background-color: #191919;
+    border: 2px solid #333;
+    color: #fff;
     border-radius: 10px;
     font-size: 1.5rem;
     text-align: center;
     letter-spacing: 0.5rem;
     outline: none;
     margin-bottom: 1.5rem;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
   }
-
+  .pin-input:focus {
+    border-color: #00FF88;
+  }
   .pin-submit {
-    background: linear-gradient(to right, #e8e1e1, #ece7e7);
-    color: #0A0A0A;
-    border: none;
+    background: #222;
+    color: #fff;
+    border: 1px solid #333;
     padding: 1rem;
     border-radius: 10px;
     cursor: pointer;
     font-weight: 600;
     width: 100%;
-    transition: all 0.3s ease;
+    font-size: 1.08rem;
+    transition: all 0.22s;
+    margin-bottom: 0.4rem;
   }
-
   .pin-submit:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4);
+    background: #191919;
+    color: #00ff88;
+    border-color: #00ff88;
+    box-shadow: 0 2px 12px #00ff8822;
   }
-
   .error-message {
-    color: var(--danger);
-    margin-top: 1.2rem;
-    font-size: 0.9rem;
+    color: #ff3860;
+    margin-top: 1.0rem;
+    font-size: 0.95rem;
     display: none;
   }
-
   .loading {
     display: flex;
     justify-content: center;
@@ -233,7 +263,6 @@
     height: 100%;
     gap: 0.5rem;
   }
-
   .loading-dot {
     width: 10px;
     height: 10px;
@@ -241,12 +270,10 @@
     border-radius: 50%;
     animation: pulse 1.5s infinite ease-in-out;
   }
-
   @keyframes pulse {
     0%, 100% { opacity: 0.6; transform: scale(0.9); }
     50% { opacity: 1; transform: scale(1.1); }
   }
-
   .empty-state {
     text-align: center;
     padding: 2rem;
@@ -280,6 +307,7 @@
 <!-- PIN Modal -->
 <div class="modal" id="pinModal">
   <div class="modal-content">
+    <button class="close-modal-btn" id="closePinModal" aria-label="Close">&times;</button>
     <div class="modal-title">Enter Security PIN</div>
     <input type="password" class="pin-input" id="pinInput" placeholder="••••" maxlength="4" inputmode="numeric">
     <button class="pin-submit" id="pinSubmit">VERIFY</button>
@@ -304,6 +332,7 @@ const pinModal = document.getElementById('pinModal');
 const pinInput = document.getElementById('pinInput');
 const pinSubmit = document.getElementById('pinSubmit');
 const errorMessage = document.getElementById('errorMessage');
+const closePinModalBtn = document.getElementById('closePinModal');
 
 // File type icons
 const fileIcons = {
@@ -400,8 +429,8 @@ function showPinModal(downloadUrl) {
   currentDownloadUrl = downloadUrl;
   pinInput.value = '';
   errorMessage.style.display = 'none';
-  pinModal.style.display = 'flex';
-  pinInput.focus();
+  pinModal.classList.add('visible');
+  setTimeout(()=>pinInput.focus(), 80);
 }
 
 // Verify PIN
@@ -420,7 +449,7 @@ function verifyPin() {
 
 // Hide PIN modal
 function hidePinModal() {
-  pinModal.style.display = 'none';
+  pinModal.classList.remove('visible');
 }
 
 // Update breadcrumb
@@ -480,6 +509,7 @@ pinSubmit.addEventListener('click', verifyPin);
 pinInput.addEventListener('keypress', (e) => {
   if (e.key === 'Enter') verifyPin();
 });
+closePinModalBtn.addEventListener('click', hidePinModal);
 
 window.addEventListener('click', (e) => {
   if (e.target === pinModal) hidePinModal();
