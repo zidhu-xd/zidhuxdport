@@ -15,69 +15,35 @@
     
     <!-- Custom CSS for animations and overrides -->
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            transition: background-color 0.3s ease;
-        }
-
-        /* Custom font declaration */
+      body {
+        font-family: 'Inter', 'CocoSharpLight', sans-serif;
+      }
         @font-face {
-            font-family: 'CocoSharpBold';
-            src: url('/Coco-Sharp-Bold-trial.ttf') format('truetype');
-            font-weight: bold;
-            font-style: normal;
+          font-family: 'CocoSharpBold';
+          src: url('./Coco-Sharp-Extrabold-trial.ttf') format('truetype');
+          font-weight: 700;
+          font-style: normal;
+        }
+        @font-face {
+          font-family: 'CocoSharpLight';
+          src: url('./Coco-Sharp-Light-trial.ttf') format('truetype');
+          font-weight: 500;
+          font-style: normal;
         }
 
-        /* Apply the custom font to specific elements */
-        .normalxd, .section-title, .connect-heading {
-            font-family: 'CocoSharpBold', sans-serif;
-        }
+p.normalxd {
+  font-family: 'CocoSharpBold', sans-serif;
+}
+#about {
+    font-family: 'CocoSharpBold', sans-serif;
+}
+
+
+        /* NOTE: The original custom font 'HeheFont' was referencing a local file '/zidhuxdport/xd.otf', which will not work.
+           To re-enable this font, replace the src URL with a valid, hosted link to the font file.
+           For now, the site will use the 'Inter' font for all text.
+        */
         
-        /* New custom animation for the main content entrance */
-        @keyframes fadeInZoom {
-            from {
-                opacity: 0;
-                transform: scale(1.02);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        /* New keyframes for scroll-based fade-in-up animation */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Classes to apply the new animations */
-        .animate-fade-in-zoom {
-            animation: fadeInZoom 1s ease-out 0.5s forwards;
-            opacity: 0; /* Initially hide the element */
-        }
-        
-        /* Base styles for scroll animation elements */
-        .scroll-animate {
-            opacity: 0; /* Initially hidden */
-            transform: translateY(20px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
-        }
-        
-        /* State for when the element is visible */
-        .scroll-animate.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* The rest of your existing custom CSS for buttons, scrolling, etc. */
-
         /* Custom button styling from Uiverse */
         .p5 {
             color: #ff0000;
@@ -87,12 +53,12 @@
             white-space: nowrap;
             width: 0;
             animation: typing 3s steps(15) forwards, blink 1s infinite;
-        }
+            }
 
-        @keyframes typing {
-            from { width: 0; }
-            to { width: 40%; }
-        }
+            @keyframes typing {
+                from { width: 0; }
+                to { width: 40%; }
+            }
 
         @keyframes blink {
             0%, 50% { border-color: #ffffff; }
@@ -181,19 +147,7 @@
             align-items: center;
             justify-content: center;
             padding: 1rem;
-            /* Ensure initial states for smooth transitions */
-            transform: scale(1);
-            box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2);
-            filter: grayscale(100%);
-            transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
-        }
-        .client-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            filter: grayscale(0);
-        }
-        .client-card img {
-            transition: filter 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
         /* CSS for the auto-scrolling clients section */
@@ -395,6 +349,7 @@
             text-align: center;
             margin-bottom: 2rem;
         }
+
     </style>
 </head>
 <body class="bg-black text-white p-4 md:p-12 lg:p-24 min-h-screen antialiased">
@@ -409,6 +364,7 @@
                 <div id="nav-menu-desktop" class="hidden md:flex space-x-4 md:space-x-8">
                     <a href="/projects" class="text-gray-400 hover:text-white transition-colors">Projects</a>
                     <a href="#about" class="text-gray-400 hover:text-white transition-colors">About</a>
+              
                     <a href="#connect" class="text-gray-400 hover:text-white transition-colors">Connect</a>
                 </div>
                 
@@ -438,42 +394,43 @@
             <div class="flex flex-col items-end space-y-4">
                 <a href="/projects" class="text-gray-400 hover:text-white transition-colors text-xl">Projects</a>
                 <a href="#about" class="text-gray-400 hover:text-white transition-colors text-xl">About</a>
-                <a href="#connect" class="text-gray-400 hover:text-white transition-colors text-xl">Connect</a>
+                
+                <a href="#contact" class="text-gray-400 hover:text-white transition-colors text-xl">Contact</a>
             </div>
         </div>
     </header>
 
-    <!-- Main content container - the new animation is applied here -->
-    <main class="w-full max-w-6xl mx-auto space-y-20 md:space-y-32 mt-20 md:mt-24 animate-fade-in-zoom">
+    <main class="w-full max-w-6xl mx-auto space-y-20 md:space-y-32 mt-20 md:mt-24">
         <!-- Welcome Heading -->
-        <section class="scroll-animate flex flex-col items-start justify-center pt-16">
-            <h1 class="section-title text-5xl sm:text-7xl md:text-8xl font-black tracking-tight text-center md:text-left">
+        <section class="flex flex-col items-start justify-center pt-16">
+            <h1 class="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight text-center md:text-left">
                 Welcome to ZIdhuXD Portal
             </h1>
         </section>
 
         <!-- About Me Section -->
-        <section id="about" class="scroll-animate space-y-8 md:space-y-12 pt-16">
-            <h1 class="section-title text-5xl sm:text-7xl md:text-8xl font-black tracking-tight text-left">
+        <section id="about" class="space-y-8 md:space-y-12 pt-16">
+            <h1 class="text-5xl sm:text-7xl md:text-8xl font-black tracking-tight text-left">
                 About Me
             </h1>
             <div class="space-y-4 text-lg md:text-xl leading-relaxed max-w-3xl">
-                <p class="normalxd">I’m a tech nerd from Kerala, India.</p>
-                <p class="normalxd">My journey began during the COVID lockdown when I suddenly had lots of time to spend with computers and Android devices. I was always curious about how these gadgets worked — what really happens behind the scenes when we tap a button on the screen?</p>
-                <p class="normalxd">That curiosity sparked a passion to learn more about how things function and how we can modify them to suit our needs.</p>
-                <p class="normalxd">I know I’m still a beginner, but over the years, this craze has taught me an important lesson<br>
-                <p class="p5">"Never give up."</p>
-                <p class="normalxd">I’ve failed many times. I’ve lost countless hours, some people, and even money. But life showed me that if you truly want something, you have to work hard for it — no matter who’s with you or what tomorrow brings.</p>
-                <p class="normalxd">So here I am, still trying, still learning, and always pushing forward. :)</p>
+               <p class="normalxd">I’m a tech nerd from Kerala, India.</p>
+  <p class="normalxd">My journey began during the COVID lockdown when I suddenly had lots of time to spend with computers and Android devices. I was always curious about how these gadgets worked — what really happens behind the scenes when we tap a button on the screen?</p>
+  <p class="normalxd">That curiosity sparked a passion to learn more about how things function and how we can modify them to suit our needs.</p>
+  <p class="normalxd">I know I’m still a beginner, but over the years, this craze has taught me an important lesson<br>
+  <p class="p5">"Never give up."</p>
+  <p class="normalxd">I’ve failed many times. I’ve lost countless hours, some people, and even money. But life showed me that if you truly want something, you have to work hard for it — no matter who’s with you or what tomorrow brings.</p>
+  <p class="normalxd">So here I am, still trying, still learning, and always pushing forward. :)</p>
+
                 <p class="text-center font-bold text-1.7xl pt-6">
-                    Let's create something amazing, for everyone for everything    ✌️
+                    Let's create something amazing, for everyone for everything   ✌️
                 </p>
             </div>
         </section>
 
         <!-- "Visit my projects" section -->
-        <section id="projects" class="scroll-animate flex flex-col items-start justify-center space-y-6 pt-16">
-            <h2 class="section-title text-5xl sm:text-6xl md:text-7xl font-black tracking-tight text-left">
+        <section id="projects" class="flex flex-col items-start justify-center space-y-6 pt-16">
+            <h2 class="text-5xl sm:text-6xl md:text-7xl font-black tracking-tight text-left">
                 Check out my projects
             </h2>
             <a href="/projects" class="button" style="--clr: #B7F538">
@@ -483,36 +440,36 @@
                     </svg>
                     <svg viewBox="0 0 14 15" fill="none" width="10" xmlns="http://www.w3.org/2000/svg" class="button__icon-svg button__icon-svg--copy">
                         <path d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z" fill="currentColor"></path>
-                    </svg>
-                </span>
-                Visit Projects
-            </a>
+                        </svg>
+                    </span>
+                    Visit Projects
+                </a>
         </section>
 
-        <!-- Highlights Section -->
-        <section id="highlights" class="scroll-animate space-y-8 pt-16">
-            <h2 class="section-title text-5xl sm:text-6xl md:text-7xl font-black tracking-tight text-left">
-                Highlights
-            </h2>
-            <div class="space-y-6 text-lg md:text-xl leading-relaxed max-w-4xl">
-            <p>
-                I have completed various online courses and certifications to enhance my skills in motion design, animation, and related fields. Here are some of the notable ones:
-            </p>
-            <div class="flex flex-col items-center gap-5 mb-8 text-center">
-                <!-- Changed local image to a placeholder for display -->
-                <img src="https://github.com/zidhu-xd/zidhuxdport/blob/main/certi.png" alt="Professional Certificate" class="w-full max-w-1xl h-auto rounded-lg object-contain border-2 border-gray-700 hover:border-[#B7F538] transition-colors duration-300">
-                <div>
-                <ul class="text-white-400 space-y-1">
-                    <li>Certificate issued by GitHub Spark Team for my contributions to GitHub Spark</li>
-                </ul>
-                </div>
+      <!-- Highlights Section -->
+      <section id="highlights" class="space-y-8 pt-16">
+          <h2 class="text-5xl sm:text-6xl md:text-7xl font-black tracking-tight text-left">
+        Highlights
+          </h2>
+          <div class="space-y-6 text-lg md:text-xl leading-relaxed max-w-4xl">
+        <p class='normalxd'>
+            I have completed various online courses and certifications to enhance my skills in motion design, animation, and related fields. Here are some of the notable ones:
+        </p>
+        <div class="flex flex-col items-center gap-5 mb-8 text-center">
+            <img src="/certi.png" alt="Professional Certificate" class="w-full max-w-1xl h-auto rounded-lg object-contain border-2 border-gray-700 hover:border-[#B7F538] transition-colors duration-300">
+            <div>
+          <ul class="text-white-400 space-y-1">
+              <p class='normalxd'>Certificate issued by GitHub Spark Team for my contributions to GitHub Spark</li>
+
+          </ul>
             </div>
-            </div>
-        </section>
+        </div>
+          </div>
+      </section>
 
         <!-- Selected Clients Section -->
-        <section id="clients" class="scroll-animate space-y-12 py-16">
-            <h2 class="section-title text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-left">
+        <section id="clients" class="space-y-12 py-16">
+            <h2 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-left">
                 Selected Clients
             </h2>
             
@@ -612,8 +569,8 @@
         </section>
 
         <!-- New 'Connect with me' Section -->
-        <section id="connect" class="scroll-animate space-y-12 py-16 text-center">
-            <h2 class="section-title text-4xl sm:text-5xl md:text-6xl font-black tracking-tight connect-heading">Connect with me</h2>
+        <section id="connect" class="space-y-12 py-16 text-center">
+            <h2 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight">Connect with me</h2>
             <ul class="social-links">
                 <li class="icon-content">
                     <!-- GitHub Button -->
@@ -664,13 +621,21 @@
         </div>
     </footer>
 
-    <!-- JavaScript for Mobile Menu and Scroll Animations -->
+    <!-- JavaScript for Mobile Menu -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const menuButton = document.getElementById('menu-button');
             const mobileNavMenu = document.getElementById('mobile-nav-menu');
             const navLinks = mobileNavMenu.querySelectorAll('a');
+            const desktopNavLinks = document.getElementById('nav-menu-desktop');
             
+            // Add 'Connect' link to desktop menu
+            const connectLinkDesktop = document.createElement('a');
+            connectLinkDesktop.href = '#connect';
+            connectLinkDesktop.className = 'text-gray-400 hover:text-white transition-colors';
+            connectLinkDesktop.textContent = 'Connect';
+            desktopNavLinks.insertBefore(connectLinkDesktop, desktopNavLinks.children[2]);
+
             // Function to close the mobile menu
             function closeMenu() {
                 mobileNavMenu.classList.remove('nav-menu-visible');
@@ -699,22 +664,11 @@
                     setTimeout(closeMenu, 150);
                 });
             });
-            
-            // IntersectionObserver for scroll-based animations
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target); // Stop observing once animated
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            // Target all sections for the animation
-            document.querySelectorAll('section.scroll-animate').forEach(section => {
-                observer.observe(section);
-            });
         });
     </script>
 </body>
 </html>
+
+
+
+
