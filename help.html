@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZidhuXD - Portfolio</title>
+    
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Font 'Inter' for a clean, modern look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS for animations and overrides -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Custom font declaration */
+        @font-face {
+            font-family: 'CocoSharpBold';
+            src: url('https://raw.githubusercontent.com/zidhu-xd/zidhuxd-fonts/main/Coco-Sharp-Bold-trial.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        /* Apply the custom font to specific elements */
+        .normalxd, .section-title, .connect-heading {
+            font-family: 'CocoSharpBold', sans-serif;
+        }
+        
+        /* New custom animation for the main content entrance */
+        @keyframes fadeInZoom {
+            from {
+                opacity: 0;
+                transform: scale(1.02);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* New keyframes for scroll-based fade-in-up animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Classes to apply the new animations */
+        .animate-fade-in-zoom {
+            animation: fadeInZoom 1s ease-out 0.5s forwards;
+            opacity: 0; /* Initially hide the element */
+        }
+        
+        /* Base styles for scroll animation elements */
+        .scroll-animate {
+            opacity: 0; /* Initially hidden */
+            transform: translateY(20px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+        
+        /* State for when the element is visible */
+        .scroll-animate.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* The rest of your existing custom CSS for buttons, scrolling, etc. */
+
+        /* Custom button styling from Uiverse */
+        .p5 {
+            color: #ff0000;
+            font-weight: bold;
+            overflow: hidden;
+            border-right: 2px solid #ffffff;
+            white-space: nowrap;
+            width: 0;
+            animation: typing 3s steps(15) forwards, blink 1s infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 40%; }
+        }
+
+        @keyframes blink {
+            0%, 50% { border-color: #ffffff; }
+            51%, 100% { border-color: transparent; }
+        }
+
+        .button {
+            line-height: 1;
+            text-decoration: none;
+            display: inline-flex;
+            border: none;
+            cursor: pointer;
+            align-items: center;
+            gap: 0.75rem;
+            background-color: var(--clr);
+            color: black;
+            border-radius: 10rem;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            padding-left: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .button__icon-wrapper {
+            flex-shrink: 0;
+            width: 25px;
+            height: 25px;
+            position: relative;
+            color: var(--clr);
+            background-color: #fff;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+        }
+
+        .button:hover {
+            background-color: #000;
+            color: white;
+        }
+
+        .button:hover .button__icon-svg {
+            transform: translateX(5px);
+            fill: white;
+        }
+        
+        .button__icon-svg--copy {
+            position: absolute;
+            transform: translate(-150%, 150%);
+        }
+
+        .button:hover .button__icon-svg:first-child {
+            transition: transform 0.3s ease-in-out;
+            transform: translate(150%, -150%);
+        }
+
+        .button:hover .button__icon-svg--copy {
+            transition: transform 0.3s ease-in-out 0.1s;
+            transform: translate(0);
+        }
+        
+        /* Mobile menu animation classes */
+        .nav-menu-transition {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+        .nav-menu-hidden {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .nav-menu-visible {
+            max-height: 20rem; /* Adjust as needed */
+            opacity: 1;
+        }
+
+        /* New CSS for the animated client cards */
+        .client-card {
+            position: relative;
+            background-color: #000;
+            border: 2px solid #333;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            /* Ensure initial states for smooth transitions */
+            transform: scale(1);
+            box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2);
+            filter: grayscale(100%);
+            transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+        }
+        .client-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            filter: grayscale(0);
+        }
+        .client-card img {
+            transition: filter 0.3s;
+        }
+
+        /* CSS for the auto-scrolling clients section */
+        .clients-scroll-container {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        /* Using a pseudo-element for a more reliable fade-out effect on the sides */
+        .clients-scroll-container::before,
+        .clients-scroll-container::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 10%; /* Adjust fade width as needed */
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .clients-scroll-container::before {
+            left: 0;
+            background: linear-gradient(to right, #000, rgba(0, 0, 0, 0));
+        }
+        
+        .clients-scroll-container::after {
+            right: 0;
+            background: linear-gradient(to left, #000, rgba(0, 0, 0, 0));
+        }
+
+
+        .clients-scroll-inner {
+            display: inline-block;
+            animation: scroll-left 40s linear infinite;
+        }
+
+        .clients-scroll-inner:hover {
+            animation-play-state: paused;
+        }
+
+        .clients-scroll-inner .client-card {
+            display: inline-flex;
+            width: auto;
+            min-width: 150px;
+            margin-right: 2rem;
+        }
+
+        @keyframes scroll-left {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        /* The CSS for the text drawing animation */
+        .text-drawing-effect {
+            color: transparent;
+            -webkit-text-stroke: 1px #B7F538;
+            position: relative;
+            animation: stroke-in 1.5s forwards;
+            font-weight: bold;
+        }
+        
+        /* The fill animation is a pseudo-element that scales up */
+        .text-drawing-effect::after {
+            content: "Made with ❤️ by ZidhuXD.";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            color: white;
+            animation: fill-text 1s forwards 1.5s;
+        }
+
+        @keyframes stroke-in {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes fill-text {
+            from {
+                clip-path: inset(0 100% 0 0);
+            }
+            to {
+                clip-path: inset(0 0 0 0);
+            }
+        }
+
+        /* Custom CSS for the social buttons */
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            margin: 0;
+            gap: 1.5rem;
+        }
+
+        .social-links .icon-content {
+            position: relative;
+        }
+
+        .social-links .icon-content .tooltip {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffffff;
+            padding: 6px 10px;
+            border-radius: 15px;
+            opacity: 0;
+            visibility: hidden;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .social-links .icon-content:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+            top: -50px;
+        }
+
+        .social-links .icon-content a {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 20%;
+            color: #333333;
+            background-color: #fff;
+            transition: all 0.3s ease-in-out;
+            text-decoration: none;
+        }
+        .social-links .icon-content a:hover {
+            box-shadow: 3px 2px 45px 0px rgb(0 0 0 / 50%);
+        }
+
+        .social-links .icon-content a svg {
+            position: relative;
+            z-index: 1;
+            width: 30px;
+            height: 30px;
+        }
+
+        .social-links .icon-content a:hover {
+            color: white;
+        }
+
+        .social-links .icon-content a .filled {
+            position: absolute;
+            top: auto;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background-color: #000;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .social-links .icon-content a:hover .filled {
+            height: 100%;
+        }
+
+        /* GitHub */
+        .social-links .icon-content a[data-social="github"] .filled,
+        .social-links .icon-content a[data-social="github"] ~ .tooltip {
+            background-color: #24262a;
+        }
+        
+        /* Instagram */
+        .social-links .icon-content a[data-social="instagram"] .filled,
+        .social-links a[data-social="instagram"] ~ .tooltip {
+            background: linear-gradient(
+                45deg,
+                #ff0000,
+                #f60000,
+                #ff0000,
+                #ff0000,
+                #ff0000,
+                #fd1f1f
+            );
+        }
+        
+        /* Telegram */
+        .social-links .icon-content a[data-social="telegram"] .filled,
+        .social-links .icon-content a[data-social="telegram"] ~ .tooltip {
+            background-color: #0685c5;
+        }
+        
+        /* Added a class for the new section heading */
+        .connect-heading {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body class="bg-black text-white p-4 md:p-12 lg:p-24 min-h-screen antialiased">
+
+    <!-- Header Section - Navigation Bar -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-black bg-opacity-70 backdrop-blur-sm p-4 md:p-6">
+        <nav class="w-full max-w-6xl mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-black tracking-tighter">xD</a>
+            
+            <div class="flex items-center space-x-4 md:space-x-8">
+                <!-- Desktop navigation links -->
+                <div id="nav-menu-desktop" class="hidden md:flex space-x-4 md:space-x-8">
+                    <a href="/projects" class="text-gray-400 hover:text-white transition-colors">Projects</a>
+                    <a href="#about" class="text-gray-400 hover:text-white transition-colors">About</a>
+                    <a href="#connect" class="text-gray-400 hover:text-white transition-colors">Connect</a>
+                </div>
+                
+                <!-- "Say Hello" Button -->
+                <a href="#contact" class="button hidden md:inline-flex" style="--clr: #B7F538">
+                    <span class="button__icon-wrapper">
+                        <svg viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="button__icon-svg" width="10">
+                            <path d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z" fill="currentColor"></path>
+                        </svg>
+                        <svg viewBox="0 0 14 15" fill="none" width="10" xmlns="http://www.w3.org/2000/svg" class="button__icon-svg button__icon-svg--copy">
+                            <path d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z" fill="currentColor"></path>
+                        </svg>
+                    </span>
+                    Contact
+                </a>
+
+                <!-- Hamburger menu button for mobile -->
+                <button id="menu-button" class="md:hidden text-white focus:outline-none" aria-label="Toggle navigation menu" aria-controls="mobile-nav-menu">
+                    <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile navigation links (hidden by default) -->
+        <div id="mobile-nav-menu" class="w-full mt-4 md:hidden nav-menu-transition nav-menu-hidden">
+            <div class="flex flex-col items-end space-y-4">
+                <a href="/projects" class="text-gray-400 hover:text-white transition-colors text-xl">Projects</a>
+                <a href="#about" class="text-gray-400 hover:text-white transition-colors text-xl">About</a>
+                <a href="#connect" class="text-gray-400 hover:text-white transition-colors text-xl">Connect</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content container - the new animation is applied here -->
+    <main class="w-full max-w-6xl mx-auto space-y-20 md:space-y-32 mt-20 md:mt-24 animate-fade-in-zoom">
+        <!-- Welcome Heading -->
+        <section class="scroll-animate flex flex-col items-start justify-center pt-16">
+            <h1 class="section-title text-5xl sm:text-7xl md:text-8xl font-black tracking-tight text-center md:text-left">
+                Welcome to ZIdhuXD Portal
+            </h1>
+        </section>
+
+        <!-- About Me Section -->
+        <section id="about" class="scroll-animate space-y-8 md:space-y-12 pt-16">
+            <h1 class="section-title text-5xl sm:text-7xl md:text-8xl font-black tracking-tight text-left">
+                About Me
+            </h1>
+            <div class="space-y-4 text-lg md:text-xl leading-relaxed max-w-3xl">
+                <p class="normalxd">I’m a tech nerd from Kerala, India.</p>
+                <p class="normalxd">My journey began during the COVID lockdown when I suddenly had lots of time to spend with computers and Android devices. I was always curious about how these gadgets worked — what really happens behind the scenes when we tap a button on the screen?</p>
+                <p class="normalxd">That curiosity sparked a passion to learn more about how things function and how we can modify them to suit our needs.</p>
+                <p class="normalxd">I know I’m still a beginner, but over the years, this craze has taught me an important lesson<br>
+                <p class="p5">"Never give up."</p>
+                <p class="normalxd">I’ve failed many times. I’ve lost countless hours, some people, and even money. But life showed me that if you truly want something, you have to work hard for it — no matter who’s with you or what tomorrow brings.</p>
+                <p class="normalxd">So here I am, still trying, still learning, and always pushing forward. :)</p>
+                <p class="text-center font-bold text-1.7xl pt-6">
+                    Let's create something amazing, for everyone for everything    ✌️
+                </p>
+            </div>
+        </section>
+
+        <!-- "Visit my projects" section -->
+        <section id="projects" class="scroll-animate flex flex-col items-start justify-center space-y-6 pt-16">
+            <h2 class="section-title text-5xl sm:text-6xl md:text-7xl font-black tracking-tight text-left">
+                Check out my projects
+            </h2>
+            <a href="/projects" class="button" style="--clr: #B7F538">
+                <span class="button__icon-wrapper">
+                    <svg viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="button__icon-svg" width="10">
+                        <path d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z" fill="currentColor"></path>
+                    </svg>
+                    <svg viewBox="0 0 14 15" fill="none" width="10" xmlns="http://www.w3.org/2000/svg" class="button__icon-svg button__icon-svg--copy">
+                        <path d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z" fill="currentColor"></path>
+                    </svg>
+                </span>
+                Visit Projects
+            </a>
+        </section>
+
+        <!-- Highlights Section -->
+        <section id="highlights" class="scroll-animate space-y-8 pt-16">
+            <h2 class="section-title text-5xl sm:text-6xl md:text-7xl font-black tracking-tight text-left">
+                Highlights
+            </h2>
+            <div class="space-y-6 text-lg md:text-xl leading-relaxed max-w-4xl">
+            <p>
+                I have completed various online courses and certifications to enhance my skills in motion design, animation, and related fields. Here are some of the notable ones:
+            </p>
+            <div class="flex flex-col items-center gap-5 mb-8 text-center">
+                <!-- Changed local image to a placeholder for display -->
+                <img src="https://raw.githubusercontent.com/zidhu-xd/zidhuxd-fonts/main/certi.png" alt="Professional Certificate" class="w-full max-w-1xl h-auto rounded-lg object-contain border-2 border-gray-700 hover:border-[#B7F538] transition-colors duration-300">
+                <div>
+                <ul class="text-white-400 space-y-1">
+                    <li>Certificate issued by GitHub Spark Team for my contributions to GitHub Spark</li>
+                </ul>
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <!-- Selected Clients Section -->
+        <section id="clients" class="scroll-animate space-y-12 py-16">
+            <h2 class="section-title text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-left">
+                Selected Clients
+            </h2>
+            
+            <!-- Auto-scrolling client logos container -->
+            <div class="clients-scroll-container">
+                <div class="clients-scroll-inner">
+                    <!-- Client logos repeated twice for a seamless loop -->
+                    <div class="inline-flex space-x-8">
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=Tencent" alt="Tencent Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=Evernote" alt="Evernote Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=Airbnb" alt="Airbnb Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=Trovo" alt="Trovo Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=Alice" alt="Alice Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=Vornado" alt="Vornado Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=PUBG+Mobile" alt="PUBG Mobile Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=Quantum+Blade" alt="Quantum Blade Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=Nano+Hearing+Aids" alt="Nano Hearing Aids Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=Keeva" alt="Keeva Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=GitHub" alt="GitHub Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=Microsoft" alt="Microsoft Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=Instagram" alt="Instagram Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                    </div>
+                    <!-- Duplicate logos for the seamless scroll effect -->
+                    <div class="inline-flex space-x-8">
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=Tencent" alt="Tencent Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=Evernote" alt="Evernote Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=Airbnb" alt="Airbnb Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=Trovo" alt="Trovo Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=Alice" alt="Alice Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=Vornado" alt="Vornado Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=PUBG+Mobile" alt="PUBG Mobile Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=Quantum+Blade" alt="Quantum Blade Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=Nano+Hearing+Aids" alt="Nano Hearing Aids Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=Keeva" alt="Keeva Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=GitHub" alt="GitHub Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=Microsoft" alt="Microsoft Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                        <div class="client-card">
+                            <img src="https://placehold.co/200x80/000000/FFFFFF?text=Instagram" alt="Instagram Logo" class="h-10 md:h-12 w-auto object-contain grayscale transition-all duration-300">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="text-sm text-gray-500 max-w-4xl mx-auto mt-8 px-4">
+                The logos displayed represent brands I've had the opportunity to work with, either directly or through collaborations with agencies. All trademarks and logos are the property of their respective owners and are used here solely for illustrative purposes.
+            </p>
+        </section>
+
+        <!-- New 'Connect with me' Section -->
+        <section id="connect" class="scroll-animate space-y-12 py-16 text-center">
+            <h2 class="section-title text-4xl sm:text-5xl md:text-6xl font-black tracking-tight connect-heading">Connect with me</h2>
+            <ul class="social-links">
+                <li class="icon-content">
+                    <!-- GitHub Button -->
+                    <a data-social="github" aria-label="GitHub" href="https://github.com/zidhu-xd/">
+                        <div class="filled"></div>
+                        <!-- GitHub SVG Icon -->
+                        <svg xml:space="preserve" viewBox="0 0 16 16" class="bi bi-github" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.23 0 .21.15.46.55.38C13.71 14.53 16 11.54 16 8c0-4.42-3.58-8-8-8z"></path>
+                        </svg>
+                    </a>
+                    <div class="tooltip">GitHub</div>
+                </li>
+            
+                <li class="icon-content">
+                    <!-- Instagram Button -->
+                    <a data-social="instagram" aria-label="Instagram" href="http://instagram.com/zidhuxd/">
+                        <div class="filled"></div>
+                        <!-- Instagram SVG Icon -->
+                        <svg xml:space="preserve" viewBox="0 0 16 16" class="bi bi-instagram" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="currentColor" d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"></path>
+                        </svg>
+                    </a>
+                    <div class="tooltip">Instagram</div>
+                </li>
+                
+                <li class="icon-content">
+                    <!-- Telegram Button -->
+                    <!-- TODO: Replace the href with your actual Telegram link -->
+                    <a data-social="telegram" aria-label="Telegram" href="https://t.me/zidhuxd">
+                        <div class="filled"></div>
+                        <!-- Telegram SVG Icon -->
+                        <svg viewBox="0 0 100 100" class="telegram-icon" fill="currentColor" height="30" width="30" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M95,9.9c-1.3-1.1-3.4-1.2-7-0.1c0,0,0,0,0,0c-2.5,0.8-24.7,9.2-44.3,17.3c-17.6,7.3-31.9,13.7-33.6,14.5c-1.9,0.6-6,2.4-6.2,5.2c-0.1,1.8,1.4,3.4,4.3,4.7c3.1,1.6,16.8,6.2,19.7,7.1c1,3.4,6.9,23.3,7.2,24.5c0.4,1.8,1.6,2.8,2.2,3.2c0.1,0.1,0.3,0.3,0.5,0.4c0.3,0.2,0.7,0.3,1.2,0.3c0.7,0,1.5-0.3,2.2-0.8c3.7-3,10.1-9.7,11.9-11.6c7.9,6.2,16.5,13.1,17.3,13.9c0,0,0.1,0.1,0.1,0.1c1.9,1.6,3.9,2.5,5.7,2.5c0.6,0,1.2-0.1,1.8-0.3c2.1-0.7,3.6-2.7,4.1-5.4c0-0.1,0.1-0.5,0.3-1.2c3.4-14.8,6.1-27.8,8.3-38.7c2.1-10.7,3.8-21.2,4.8-26.8c0.2-1.4,0.4-2.5,0.5-3.2C96.3,13.5,96.5,11.2,95,9.9z M30,58.3l47.7-31.6c0.1-0.1,0.3-0.2,0.4-0.3c0,0,0,0,0,0c0.1,0,0.1-0.1,0.2-0.1c0.1,0,0.1,0,0.2-0.1c-0.1,0.1-0.2,0.4-0.4,0.6L66,38.1c-8.4,7.7-19.4,17.8-26.7,24.4c0,0,0,0,0,0.1c0,0-0.1,0.1-0.1,0.1c0,0,0,0.1-0.1,0.1c0,0.1,0,0.1-0.1,0.2c0,0,0,0.1,0,0.1c0,0,0,0,0,0.1c-0.5,5.6-1.4,15.2-1.8,19.5c0,0,0,0,0-0.1C36.8,81.4,31.2,62.3,30,58.3z"></path>
+                        </svg>
+                    </a>
+                    <div class="tooltip">Telegram</div>
+                </li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- Footer Section -->
+    <footer id="contact" class="w-full max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center py-8 text-gray-500">
+        <!-- Animated text for the footer -->
+        <div class="flex items-center mb-4 md:mb-0 space-x-2">
+            <span id="drawing-text" class="text-white text-md text-drawing-effect">Made with ❤️ by ZidhuXD.</span>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Mobile Menu and Scroll Animations -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuButton = document.getElementById('menu-button');
+            const mobileNavMenu = document.getElementById('mobile-nav-menu');
+            const navLinks = mobileNavMenu.querySelectorAll('a');
+            
+            // Function to close the mobile menu
+            function closeMenu() {
+                mobileNavMenu.classList.remove('nav-menu-visible');
+                mobileNavMenu.classList.add('nav-menu-hidden');
+            }
+            
+            // Function to open the mobile menu
+            function openMenu() {
+                mobileNavMenu.classList.remove('nav-menu-hidden');
+                mobileNavMenu.classList.add('nav-menu-visible');
+            }
+
+            // Toggle the mobile menu on button click
+            menuButton.addEventListener('click', () => {
+                if (mobileNavMenu.classList.contains('nav-menu-hidden')) {
+                    openMenu();
+                } else {
+                    closeMenu();
+                }
+            });
+
+            // Close the menu when a link is clicked
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    // Delay closing the menu to allow the scroll to happen
+                    setTimeout(closeMenu, 150);
+                });
+            });
+            
+            // IntersectionObserver for scroll-based animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once animated
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            // Target all sections for the animation
+            document.querySelectorAll('section.scroll-animate').forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
