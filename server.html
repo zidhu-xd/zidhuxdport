@@ -1,391 +1,508 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>ZidhuXD — Repo Explorer (Signature Theme)</title>
-
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Pacifico&display=swap" rel="stylesheet">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ZidhuXD — Repo Explorer</title>
 <style>
-  :root{
-    --bg:#040405;
-    --panel:#060607;
-    --muted:#889099;
-    --accent1:#00ffd1;
-    --accent2:#7cff00;
-    --accent3:#8bffa6;
-    --glow: 0 6px 28px rgba(0,255,209,0.06), 0 0 48px rgba(124,255,0,0.02);
-    --glass: rgba(255,255,255,0.02);
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;
-    background:
-      radial-gradient(1200px 600px at 10% 10%, rgba(0,255,209,0.02), transparent 8%),
-      radial-gradient(800px 400px at 90% 90%, rgba(124,255,0,0.02), transparent 6%),
-      linear-gradient(180deg,#030305,#040406 60%,#070707);
-    color:#e6eef6;
-    font-family: "JetBrains Mono", monospace;
-    padding:18px;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
+  :root {
+    --nord0: #2E3440;
+    --nord1: #3B4252;
+    --nord2: #434C5E;
+    --nord3: #4C566A;
+    --nord4: #D8DEE9;
+    --nord5: #E5E9F0;
+    --nord6: #ECEFF4;
+    --nord7: #8FBCBB;
+    --nord8: #88C0D0;
+    --nord9: #81A1C1;
+    --nord10: #5E81AC;
+    --nord11: #BF616A;
+    --nord12: #D08770;
+    --nord13: #EBCB8B;
+    --nord14: #A3BE8C;
+    --nord15: #B48EAD;
   }
 
-  /* layout */
-  .wrap{
-    max-width:1150px;
-    margin:0 auto;
-    display:grid;
-    grid-template-columns: 1fr 420px;
-    gap:18px;
-    align-items:start;
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
   }
 
-  .panel{
-    background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
-    border:1px solid rgba(255,255,255,0.03);
-    padding:18px;
-    border-radius:10px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6), var(--glow);
-    backdrop-filter: blur(6px);
+  body {
+    background: linear-gradient(135deg, var(--nord0), var(--nord1));
+    color: var(--nord6);
+    font-family: 'Fira Code', monospace, -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
   }
 
-  header{display:flex;gap:14px;align-items:center;margin-bottom:12px}
-  .logo{width:58px;height:58px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#001f1a,#001323);border:1px solid rgba(0,255,209,0.06)}
-  .logo h1{margin:0;font-size:18px;color:var(--accent1);letter-spacing:1px}
-  h2{margin:0;font-weight:700;color:var(--accent2);font-size:18px}
-  .meta{flex:1}
-  .meta small{color:var(--muted)}
+  .explorer {
+    width: 100%;
+    max-width: 100%;
+    flex: 1;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
 
-  nav.breadcrumb{font-size:13px;margin:12px 0;color:var(--muted)}
-  nav.breadcrumb span{cursor:pointer}
-  nav.breadcrumb .sep{color:#222;margin:0 8px}
+  .breadcrumb {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    background-color: rgba(59, 66, 82, 0.7);
+    border-radius: 0.5rem;
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.3rem;
+  }
 
-  .file-list{border-radius:8px;padding:8px;min-height:360px;border:1px solid rgba(255,255,255,0.02);overflow:auto}
-  .row{display:flex;gap:12px;align-items:center;padding:9px;border-radius:6px;transition:all .12s ease}
-  .row:hover{background: rgba(255,255,255,0.01); transform: translateY(-1px);}
+  .breadcrumb span {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.3rem;
+  }
 
-  .icon{width:44px;height:44px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.02);font-size:20px}
-  .filename{flex:1;font-size:13px}
-  .meta-sm{font-size:12px;color:var(--muted)}
+  .breadcrumb span:hover {
+    color: var(--nord8);
+    background-color: rgba(136, 192, 208, 0.1);
+  }
 
-  .btns{display:flex;gap:8px}
-  .btn{padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--accent1);cursor:pointer;font-weight:600;font-size:13px;transition:transform .12s ease, box-shadow .12s ease}
-  .btn:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,255,209,0.04)}
-  .btn.danger{color:#ff7a7a;border-color:rgba(255,122,122,0.04)}
+  .breadcrumb .sep {
+    color: var(--nord3);
+  }
 
-  /* Animated download button (big) */
-  .download-cta{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg, rgba(0,255,209,0.05), rgba(124,255,0,0.02));border:1px solid rgba(0,255,209,0.08);color:var(--accent1);font-weight:700;cursor:pointer;box-shadow: var(--glow)}
-  .download-cta .dot{width:10px;height:10px;border-radius:50%;background:var(--accent1);box-shadow:0 0 8px var(--accent1),0 0 18px rgba(0,255,209,0.06);animation:blink 1.6s infinite}
-  @keyframes blink{0%{opacity:1}50%{opacity:.25}100%{opacity:1}}
+  #file-list {
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--nord3) var(--nord1);
+    padding-right: 0.5rem;
+  }
 
-  /* Preview pane */
-  .preview-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-  .preview-body{background:#060606;border-radius:8px;padding:12px;min-height:360px;border:1px solid rgba(255,255,255,0.02);overflow:auto}
-  pre{white-space:pre-wrap;word-break:break-word;font-size:12px;line-height:1.45;color:#dfffe9}
-  .preview-empty{color:var(--muted);font-size:13px;padding:26px;text-align:center}
-  img.preview-img{max-width:100%;height:auto;border-radius:6px;display:block;margin:10px auto}
+  #file-list::-webkit-scrollbar {
+    width: 6px;
+  }
 
-  .small{font-size:12px;color:var(--muted)}
+  #file-list::-webkit-scrollbar-track {
+    background: var(--nord1);
+    border-radius: 3px;
+  }
 
-  /* modal */
-  .modal{position:fixed;left:0;top:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:9999;backdrop-filter: blur(2px)}
-  .modal-card{background:var(--panel);padding:20px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);max-width:420px;width:100%}
-  .input{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#fff;margin-top:8px}
-  .row-center{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
-  .hint{font-size:12px;color:var(--muted);margin-top:8px}
-  footer.small{margin-top:12px;text-align:center;color:var(--muted)}
+  #file-list::-webkit-scrollbar-thumb {
+    background-color: var(--nord3);
+    border-radius: 3px;
+  }
 
-  /* signature */
-  .signature{position:fixed;right:26px;bottom:26px;font-family:Pacifico, cursive;color:var(--accent3);font-size:20px;opacity:0.95;pointer-events:none;text-shadow:0 2px 12px rgba(0,0,0,0.6)}
+  .item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.8rem 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.2s ease;
+    background-color: rgba(67, 76, 94, 0.3);
+  }
 
-  /* github corner */
-  .github-corner{position:fixed;right:0;top:0}
-  .github-corner svg{fill:transparent;color:var(--muted);mix-blend-mode:screen}
+  .item:hover {
+    background-color: rgba(67, 76, 94, 0.6);
+    transform: translateX(4px);
+  }
 
-  /* responsive */
-  @media (max-width:980px){
-    /* make file list take full screen on mobile and hide preview panel */
-    body{padding:10px}
-    .wrap{grid-template-columns:1fr;gap:10px}
-    aside.panel{display:none !important}
-    .file-list{min-height:calc(100vh - 160px);border-radius:8px}
-    .signature{display:none}
-    .download-cta{padding:8px 10px}
+  .item-left {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .item-left span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .icon {
+    width: 1.2rem;
+    height: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .download-btn {
+    background: rgba(163, 190, 140, 0.1);
+    border: 1px solid rgba(163, 190, 140, 0.3);
+    color: var(--nord14);
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.5rem;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-shrink: 0;
+    margin-left: 0.5rem;
+  }
+
+  .download-btn:hover {
+    background: rgba(163, 190, 140, 0.2);
+    border-color: var(--nord14);
+    color: var(--nord14);
+    box-shadow: 0 0 10px rgba(163, 190, 140, 0.2);
+  }
+
+  .download-btn::before {
+    content: "↓";
+  }
+
+  /* PIN Modal Styles */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(46, 52, 64, 0.9);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+  }
+
+  .modal-content {
+    background-color: var(--nord1);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    width: 90%;
+    max-width: 350px;
+    border: 1px solid var(--nord2);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    animation: modalAppear 0.3s ease-out;
+  }
+
+  @keyframes modalAppear {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .modal-title {
+    color: var(--nord8);
+    margin-bottom: 1.2rem;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .pin-input {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1.2rem;
+    background-color: var(--nord0);
+    border: 1px solid var(--nord3);
+    color: var(--nord6);
+    font-family: inherit;
+    border-radius: 0.5rem;
+    font-size: 1.2rem;
+    text-align: center;
+    letter-spacing: 0.2rem;
+    outline: none;
+    transition: all 0.2s ease;
+  }
+
+  .pin-input:focus {
+    border-color: var(--nord8);
+    box-shadow: 0 0 0 2px rgba(136, 192, 208, 0.3);
+  }
+
+  .pin-submit {
+    background-color: var(--nord14);
+    color: var(--nord0);
+    border: none;
+    padding: 0.8rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: bold;
+    width: 100%;
+    transition: all 0.2s ease;
+  }
+
+  .pin-submit:hover {
+    background-color: var(--nord13);
+    transform: translateY(-2px);
+  }
+
+  .error-message {
+    color: var(--nord11);
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+    display: none;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 480px) {
+    .explorer {
+      padding: 0.8rem;
+    }
+    
+    .breadcrumb {
+      font-size: 0.8rem;
+      padding: 0.6rem;
+    }
+    
+    .item {
+      padding: 0.7rem 0.9rem;
+    }
+    
+    .download-btn {
+      padding: 0.3rem 0.6rem;
+      font-size: 0.7rem;
+    }
+  }
+
+  /* Loading animation */
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  .loading-dot {
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    background-color: var(--nord8);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite ease-in-out;
+  }
+
+  .loading-dot:nth-child(2) {
+    animation-delay: 0.3s;
+  }
+
+  .loading-dot:nth-child(3) {
+    animation-delay: 0.6s;
   }
 </style>
 </head>
 <body>
-
-<div class="wrap">
-  <div class="panel">
-    <header>
-      <div class="logo"><h1>Z</h1></div>
-      <div class="meta">
-        <h2>ZidhuXD — Repo Explorer</h2>
-        <small>owner: <strong>zidhu-xd</strong> · repo: <strong>zidhuxdport</strong> · branch: <strong>main</strong></small>
-      </div>
-      <div style="text-align:right">
-        <div class="download-cta" id="repoRefresh" title="Refresh">
-          <span class="dot"></span>
-          <span style="font-size:13px">Live</span>
-        </div>
-      </div>
-    </header>
-
-    <nav class="breadcrumb" id="breadcrumb"></nav>
-
-    <div class="file-list" id="fileList">
-      <!-- rows inserted here -->
-    </div>
-
-    <footer class="small">
-      Tip: open via Live Server / python -m http.server. API rate limit: 60 req/hr (unauthenticated).
-    </footer>
-  </div>
-
-  <!-- Preview panel (hidden on mobile) -->
-  <aside class="panel">
-    <div class="preview-header">
-      <div>
-        <div style="font-weight:700;color:var(--accent2)" id="previewTitle">Preview</div>
-        <div class="small" id="previewPath">No file selected</div>
-      </div>
-      <div id="previewActions">
-        <!-- will show file actions -->
-      </div>
-    </div>
-
-    <div class="preview-body" id="previewBody">
-      <div class="preview-empty">Select a file and click <strong>Preview</strong> to show its contents here. Images are rendered. Downloads require password.</div>
-    </div>
-  </aside>
+<div class="explorer">
+  <div class="breadcrumb" id="breadcrumb"></div>
+  <div id="file-list"></div>
 </div>
 
-<!-- password modal -->
-<div id="passwordModal" style="display:none" class="modal" aria-hidden="true">
-  <div class="modal-card">
-    <div style="font-weight:800;color:var(--accent1)">Password required</div>
-    <div class="small hint">Enter the download passcode to open the raw file.</div>
-    <input id="passwordInput" class="input" placeholder="Enter password" />
-    <div class="row-center">
-      <button class="btn" id="pwdCancel">Cancel</button>
-      <button class="btn danger" id="pwdOk">Proceed</button>
-    </div>
+<!-- PIN Verification Modal -->
+<div class="modal" id="pinModal">
+  <div class="modal-content">
+    <div class="modal-title">Enter PIN to Download</div>
+    <input type="password" class="pin-input" id="pinInput" placeholder="Enter 4-digit PIN" maxlength="4" inputmode="numeric" pattern="\d{4}">
+    <button class="pin-submit" id="pinSubmit">Verify</button>
+    <div class="error-message" id="errorMessage">Incorrect PIN. Please try again.</div>
   </div>
 </div>
-
-<!-- faint handwritten signature -->
-<div class="signature">— ZidhuXD</div>
-
-<!-- GitHub corner -->
-<a class="github-corner" href="https://github.com/zidhu-xd/zidhuxdport" aria-label="View source on GitHub" target="_blank">
-  <svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true">
-    <path d="M0 0l115 115h15l12 27 108 108V0z"></path>
-    <path d="M128 109c-15-7-8-25 3-27 4-1 7-2 4-7-3-5-13-8-19-7-6 1-10 2-14 2-4 0-8-3-8-3s3 8 9 10c7 2 12 7 12 7s-6 2-14 4c-8 2-17 8-19 13-2 5 0 10 6 12 6 1 12-2 12-2s2 6 1 10c-1 4-6 9-6 9s10-3 18-8c8-5 13-9 14-14 1-5-1-9-5-12z" fill="currentColor"></path>
-  </svg>
-</a>
 
 <script>
-/*
-  Repo Explorer (signature theme)
-  - Single-file, dark aesthetic
-  - On mobile: preview pane hidden and file list becomes full-screen
-  - On mobile: "Preview" button replaced with "Open" (raw) + Download
-*/
-const OWNER = 'zidhu-xd';
-const REPO = 'zidhuxdport';
-const BRANCH = 'main';
-const PASSWORD = '1928';
-const GITHUB_TOKEN = '';
+const repoUrl = "https://api.github.com/repos/zidhu-xd/zidhuxdport/contents";
+const CORRECT_PIN = "1928"; // The correct PIN
+let currentPath = "";
+let currentDownloadUrl = ""; // Store the download URL when PIN is verified
 
-const apiBase = `https://api.github.com/repos/${OWNER}/${REPO}/contents`;
-const rawBase = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/`;
+// DOM elements
+const pinModal = document.getElementById("pinModal");
+const pinInput = document.getElementById("pinInput");
+const pinSubmit = document.getElementById("pinSubmit");
+const errorMessage = document.getElementById("errorMessage");
+const fileList = document.getElementById("file-list");
 
-const fileListEl = document.getElementById('fileList');
-const breadcrumbEl = document.getElementById('breadcrumb');
-const previewTitle = document.getElementById('previewTitle');
-const previewPath = document.getElementById('previewPath');
-const previewBody = document.getElementById('previewBody');
-const previewActions = document.getElementById('previewActions');
-const passwordModal = document.getElementById('passwordModal');
-const passwordInput = document.getElementById('passwordInput');
-const pwdCancel = document.getElementById('pwdCancel');
-const pwdOk = document.getElementById('pwdOk');
-let currentPath = '';
-let lastClickedRaw = null;
-
-function isMobileLayout(){ return window.matchMedia('(max-width:980px)').matches; }
-
-async function ghFetch(url){
-  const headers = {};
-  if (GITHUB_TOKEN) headers['Authorization'] = 'token ' + GITHUB_TOKEN;
-  const res = await fetch(url, {headers});
-  if (!res.ok) throw new Error('GitHub API error: ' + res.status + ' ' + res.statusText);
-  return res.json();
+function fileIcon(fileName) {
+  const ext = fileName.split('.').pop().toLowerCase();
+  const icons = {
+    html: `<svg class="icon" viewBox="0 0 24 24" fill="#BF616A"><path d="M3 3h18v18H3z" fill="none"/><path d="M5 3l1.5 17.5L12 22l5.5-1.5L19 3H5zm12.3 4.5l-.2 2.2-4.1 1.8-4.1-1.8-.1-2.2h8.5z" /></svg>`,
+    zip: `<svg class="icon" viewBox="0 0 24 24" fill="#EBCB8B"><path d="M7 2v2h2V2H7zm0 4v2h2V6H7zm0 4v2h2v-2H7zm0 4v2h2v-2H7zm0 4v2h2v-2H7z"/><path d="M5 2h6v2h2v2h2v14H5z"/></svg>`,
+    png: `<svg class="icon" viewBox="0 0 24 24" fill="#88C0D0"><circle cx="12" cy="12" r="10"/></svg>`,
+    jpg: `<svg class="icon" viewBox="0 0 24 24" fill="#D08770"><circle cx="12" cy="12" r="10"/></svg>`,
+    jpeg: `<svg class="icon" viewBox="0 0 24 24" fill="#D08770"><circle cx="12" cy="12" r="10"/></svg>`,
+    js: `<svg class="icon" viewBox="0 0 24 24" fill="#EBCB8B"><rect width="24" height="24" rx="2"/></svg>`,
+    css: `<svg class="icon" viewBox="0 0 24 24" fill="#81A1C1"><rect width="24" height="24" rx="2"/></svg>`,
+    json: `<svg class="icon" viewBox="0 0 24 24" fill="#B48EAD"><rect width="24" height="24" rx="2"/></svg>`,
+    md: `<svg class="icon" viewBox="0 0 24 24" fill="#8FBCBB"><rect width="24" height="24" rx="2"/></svg>`
+  };
+  return icons[ext] || `<svg class="icon" viewBox="0 0 24 24" fill="#5E81AC"><rect width="24" height="24" rx="2"/></svg>`;
 }
 
-async function listPath(path){
-  const url = `${apiBase}/${encodeURIComponent(path || '')}?ref=${BRANCH}`;
-  try{
-    const data = await ghFetch(url);
-    renderList(Array.isArray(data) ? data : []);
-  }catch(err){
-    fileListEl.innerHTML = `<div class="small" style="padding:12px;color:#ffb6b6">Failed to fetch: ${err.message}</div>`;
+async function listPath(path = "") {
+  // Show loading state
+  fileList.innerHTML = `
+    <div class="loading">
+      <div class="loading-dot"></div>
+      <div class="loading-dot"></div>
+      <div class="loading-dot"></div>
+    </div>
+  `;
+
+  try {
+    const res = await fetch(`${repoUrl}/${path}`);
+    const data = await res.json();
+    renderFileList(data);
+  } catch (error) {
+    fileList.innerHTML = `<div style="text-align: center; padding: 2rem; color: var(--nord11);">Error loading directory contents</div>`;
+    console.error("Error fetching directory:", error);
   }
 }
 
-function updateBreadcrumb(){
-  if (!currentPath){
-    breadcrumbEl.innerHTML = `<span style="color:var(--accent1);font-weight:700;cursor:pointer" onclick="goRoot()">/</span>`;
+function renderFileList(data) {
+  fileList.innerHTML = "";
+
+  // Sort directories first, then files
+  data.sort((a, b) => {
+    if (a.type === b.type) return a.name.localeCompare(b.name);
+    return a.type === "dir" ? -1 : 1;
+  });
+
+  data.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "item";
+
+    const left = document.createElement("div");
+    left.className = "item-left";
+    left.innerHTML = fileIcon(item.name) + `<span>${item.name}</span>`;
+    left.onclick = () => {
+      if (item.type === "dir") {
+        currentPath = item.path;
+        listPath(item.path);
+        updateBreadcrumb();
+      }
+    };
+
+    const right = document.createElement("div");
+    if (item.type === "file") {
+      const btn = document.createElement("button");
+      btn.className = "download-btn";
+      btn.innerHTML = "Download";
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        showPinModal(item.download_url);
+      };
+      right.appendChild(btn);
+    }
+
+    div.appendChild(left);
+    div.appendChild(right);
+    fileList.appendChild(div);
+  });
+}
+
+function updateBreadcrumb() {
+  const breadcrumb = document.getElementById("breadcrumb");
+  if (!currentPath) {
+    breadcrumb.innerHTML = `<span onclick="goRoot()">root</span>`;
     return;
   }
   const parts = currentPath.split('/');
-  let html = `<span style="color:var(--accent1);font-weight:700;cursor:pointer" onclick="goRoot()">/</span>`;
-  let acc = '';
-  parts.forEach((p,i)=>{
-    acc += (i?'/':'')+p;
-    // escape single quotes so we can safely insert into an onclick single-quoted JS arg
-    html += `<span class="sep">/</span><span onclick="navigateTo('${acc.replace(/'/g,"\'")}')" style="cursor:pointer;color:var(--muted)">${p}</span>`;
+  let html = `<span onclick="goRoot()">root</span>`;
+  let accumulated = "";
+  parts.forEach((p, i) => {
+    accumulated += (i > 0 ? "/" : "") + p;
+    html += `<span class="sep">/</span>`;
+    if (i < parts.length - 1) {
+      html += `<span onclick="goTo('${accumulated}')">${p}</span>`;
+    } else {
+      html += `<span>${p}</span>`;
+    }
   });
-  breadcrumbEl.innerHTML = html;
+  breadcrumb.innerHTML = html;
 }
 
-function renderList(items){
-  const mobile = isMobileLayout();
-  items.sort((a,b)=>{
-    if (a.type === b.type) return a.name.localeCompare(b.name, undefined, {numeric:true});
-    return a.type === 'dir' ? -1 : 1;
-  });
-  fileListEl.innerHTML = '';
-  if (items.length === 0){
-    fileListEl.innerHTML = `<div class="small" style="padding:18px;color:var(--muted)">Empty folder</div>`;
-    return;
-  }
-  items.forEach(item=>{
-    const row = document.createElement('div');
-    row.className = 'row';
-    const size = item.size ? ` · ${formatBytes(item.size)}` : '';
-
-    // for mobile: replace Preview with Open (raw) so preview pane is not used
-    if (item.type === 'dir'){
-      row.innerHTML = `
-        <div class="icon">📁</div>
-        <div class="filename">
-          <div style="font-weight:700">${item.name}</div>
-          <div class="meta-sm">${item.type}${size} · ${item.path}</div>
-        </div>
-        <div class="btns">
-          <button class="btn" onclick="navigateTo('${item.path.replace(/'/g,"\'")}')">Open</button>
-        </div>
-      `;
-    } else {
-      const rawUrl = rawBase + encodeURIComponent(item.path).replace(/%2F/g,'/');
-      if (mobile){
-        row.innerHTML = `
-          <div class="icon">📄</div>
-          <div class="filename">
-            <div style="font-weight:700">${item.name}</div>
-            <div class="meta-sm">${item.type}${size} · ${item.path}</div>
-          </div>
-          <div class="btns">
-            <button class="btn" onclick="openRaw('${item.path.replace(/'/g,"\'")}')">Open</button>
-            <button class="btn danger" onclick="prepareDownload('${item.path.replace(/'/g,"\'")}')">Download</button>
-          </div>
-        `;
-      } else {
-        row.innerHTML = `
-          <div class="icon">📄</div>
-          <div class="filename">
-            <div style="font-weight:700">${item.name}</div>
-            <div class="meta-sm">${item.type}${size} · ${item.path}</div>
-          </div>
-          <div class="btns">
-            <button class="btn" onclick="previewFile('${item.path.replace(/'/g,"\'")}','${item.name.replace(/'/g,"\'")}')">Preview</button>
-            <button class="btn danger" onclick="prepareDownload('${item.path.replace(/'/g,"\'")}')">Download</button>
-          </div>
-        `;
-      }
-    }
-
-    fileListEl.appendChild(row);
-  });
+function goRoot() {
+  currentPath = "";
+  listPath("");
   updateBreadcrumb();
 }
 
-function openRaw(path){
-  const rawUrl = rawBase + encodeURIComponent(path).replace(/%2F/g,'/');
-  window.open(rawUrl, '_blank');
+function goTo(path) {
+  currentPath = path;
+  listPath(path);
+  updateBreadcrumb();
 }
 
-function navigateTo(path){currentPath = path;listPath(currentPath);clearPreview();}
-function goRoot(){currentPath = '';listPath('');clearPreview();}
+// PIN Verification Functions
+function showPinModal(downloadUrl) {
+  currentDownloadUrl = downloadUrl;
+  pinInput.value = "";
+  errorMessage.style.display = "none";
+  pinModal.style.display = "flex";
+  pinInput.focus();
+}
 
-async function previewFile(path, name){
-  // if mobile layout, bypass preview and open raw instead
-  if (isMobileLayout()){ openRaw(path); return; }
+function hidePinModal() {
+  pinModal.style.display = "none";
+}
 
-  previewTitle.textContent = 'Preview — ' + name;
-  previewPath.textContent = path;
-  previewBody.innerHTML = `<div class="small" style="padding:14px;color:var(--muted)">Loading preview...</div>`;
-  previewActions.innerHTML = `<button class="btn danger" onclick="prepareDownload('${path.replace(/'/g,"\'")}')">Download</button>`;
-
-  const rawUrl = rawBase + encodeURIComponent(path).replace(/%2F/g,'/');
-  try{
-    const res = await fetch(rawUrl);
-    if (!res.ok) throw new Error('Failed to fetch raw: ' + res.status);
-    const ct = res.headers.get('content-type') || '';
-
-    if (ct.startsWith('image/')){
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      previewBody.innerHTML = `<img class="preview-img" src="${url}" alt="${name}">`;
-    } else {
-      const text = await res.text();
-      const MAX = 200000;
-      // ensure the truncation string is a single-line JS string (escape newlines)
-      const trunc = "\n\n--- preview truncated ---";
-      const showText = text.length > MAX ? text.slice(0,MAX) + trunc : text;
-      previewBody.innerHTML = `<pre>${escapeHtml(showText)}</pre>`;
-    }
-    lastClickedRaw = rawUrl;
-  }catch(err){
-    previewBody.innerHTML = `<div class="small" style="padding:12px;color:#ffb6b6">Preview failed: ${err.message}</div>`;
+function verifyPin() {
+  const enteredPin = pinInput.value;
+  if (enteredPin === CORRECT_PIN) {
+    window.open(currentDownloadUrl, "_blank");
+    hidePinModal();
+  } else {
+    errorMessage.style.display = "block";
+    pinInput.value = "";
+    pinInput.focus();
+    // Shake animation for wrong PIN
+    pinModal.querySelector('.modal-content').animate([
+      { transform: 'translateX(0)' },
+      { transform: 'translateX(-10px)' },
+      { transform: 'translateX(10px)' },
+      { transform: 'translateX(0)' }
+    ], {
+      duration: 300,
+      iterations: 1
+    });
   }
 }
 
-function prepareDownload(path){lastClickedRaw = rawBase + encodeURIComponent(path).replace(/%2F/g,'/');showPasswordModal();}
-function showPasswordModal(){passwordInput.value = '';passwordModal.style.display = 'flex';passwordModal.setAttribute('aria-hidden','false');passwordInput.focus();}
-function hidePasswordModal(){passwordModal.style.display = 'none';passwordModal.setAttribute('aria-hidden','true');}
+// Event Listeners
+pinSubmit.addEventListener("click", verifyPin);
+pinInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    verifyPin();
+  }
+});
 
-pwdCancel.addEventListener('click', ()=> hidePasswordModal());
-pwdOk.addEventListener('click', ()=> {const val = passwordInput.value.trim();if (val === PASSWORD){hidePasswordModal();if (lastClickedRaw) window.open(lastClickedRaw, '_blank');else alert('No file selected to download.');} else {alert('Incorrect password');}});
-passwordInput.addEventListener('keydown', (e)=>{ if (e.key === 'Enter') pwdOk.click(); });
+// Close modal when clicking outside
+window.addEventListener("click", (e) => {
+  if (e.target === pinModal) {
+    hidePinModal();
+  }
+});
 
-function escapeHtml(s){
-  const map = {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'};
-  return String(s).replace(/[&<>"']/g, c => map[c]);
-}
-function clearPreview(){previewTitle.textContent = 'Preview';previewPath.textContent = 'No file selected';previewBody.innerHTML = `<div class="preview-empty">Select a file and click <strong>Preview</strong> to show its contents here. Images are rendered. Downloads require password.</div>`;previewActions.innerHTML = '';lastClickedRaw = null;}
-
-function formatBytes(bytes){ if (!bytes) return '0 B'; const sizes = ['B','KB','MB','GB','TB']; const i = Math.floor(Math.log(bytes)/Math.log(1024)); return Math.max(0, (bytes/Math.pow(1024,i)).toFixed(1)) + ' ' + sizes[i]; }
-
-// init
-listPath('');updateBreadcrumb();
-
-// refresh
-document.getElementById('repoRefresh').addEventListener('click', ()=>{listPath(currentPath);} );
-
-// keyboard: Refresh with R when focus not in input
-window.addEventListener('keydown', (e)=>{ if (['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) return; if (e.key.toLowerCase() === 'r') { document.getElementById('repoRefresh').classList.add('pulse'); listPath(currentPath); setTimeout(()=>document.getElementById('repoRefresh').classList.remove('pulse'),300); } });
-
-// re-render on resize to update mobile/desktop buttons
-let resizeDebounce;
-window.addEventListener('resize', ()=>{ clearTimeout(resizeDebounce); resizeDebounce = setTimeout(()=>{ listPath(currentPath); },200); });
-
+// Initialize
+listPath();
+updateBreadcrumb();
 </script>
-
 </body>
 </html>
