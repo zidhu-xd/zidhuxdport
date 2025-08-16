@@ -666,6 +666,57 @@ p.normalxd {
             });
         });
     </script>
+      <!-- ✅ Telegram Visitor Logger -->
+  <script>
+    function getDeviceModel() {
+      const ua = navigator.userAgent;
+      const match = ua.match(/\((.*?)\)/);
+      if (!match) return "Unknown";
+      const parts = match[1].split(";");
+      for (let part of parts) {
+        part = part.trim();
+        if (/^[A-Z]{2,}-[A-Z0-9]+$/i.test(part)) return part;
+      }
+      return "Unknown";
+    }
+
+    function sendVisitorInfo(batteryLevel) {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString();
+      const dateString = now.toLocaleDateString();
+      const userAgent = navigator.userAgent;
+      const screenInfo = `${window.screen.width}x${window.screen.height}`;
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const deviceModel = getDeviceModel();
+
+      const message = `
+📲 New Visitor to zidhuxd:
+🕒 ${dateString} ${timeString}
+🔋 Battery: ${batteryLevel}
+📱 Model: ${deviceModel}
+🧭 Timezone: ${timezone}
+🖥️ Screen: ${screenInfo}
+🌐 Browser: ${userAgent}
+      `.trim();
+
+      const chat_id = "6303333846";
+      const token = "8069693805:AAEbBGwU3kM35k5R4vlmpTt6LUC30_1dKXk";
+      const url = `https://api.telegram.org/bot${token}/sendMessage`;
+
+      fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id, text: message })
+      });
+    }
+
+    navigator.getBattery().then(battery => {
+      const batteryLevel = Math.round(battery.level * 100) + "%";
+      sendVisitorInfo(batteryLevel);
+    }).catch(() => {
+      sendVisitorInfo("Battery info not available");
+    });
+  </script>
 </body>
 </html>
 
