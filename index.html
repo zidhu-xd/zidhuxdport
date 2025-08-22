@@ -3,7 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZidhuXD - Portfolio</title>
+    <title>ZidhuXD - Portfolio | Tech Enthusiast & Developer from Kerala, India</title>
+    <meta name="description" content="Portfolio of ZidhuXD - A tech enthusiast and developer from Kerala, India. Passionate about coding, Android development, and creating amazing digital experiences.">
+    <meta name="keywords" content="ZidhuXD, Portfolio, Developer, Tech Enthusiast, Kerala, India, Web Development, Android Development">
+    <meta name="author" content="ZidhuXD">
+    <meta property="og:title" content="ZidhuXD - Portfolio">
+    <meta property="og:description" content="Tech enthusiast and developer from Kerala, India. Passionate about creating amazing digital experiences.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://zidhuxdport.github.io">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ZidhuXD - Portfolio">
+    <meta name="twitter:description" content="Tech enthusiast and developer from Kerala, India.">
     
     <!-- Tailwind CSS CDN for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -346,6 +356,100 @@ p.normalxd {
             margin-bottom: 2rem;
         }
 
+        /* Skills Section Styling */
+        .skill-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border: 1px solid #333;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            border-color: #B7F538;
+            box-shadow: 0 10px 25px rgba(183, 245, 56, 0.1);
+        }
+
+        .skill-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .skill-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #B7F538;
+        }
+
+        .skill-tech {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* Contact Form Styling */
+        .contact-form {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border: 1px solid #333;
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #B7F538;
+            font-weight: 600;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            background: #000;
+            border: 1px solid #333;
+            border-radius: 0.5rem;
+            color: white;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #B7F538;
+            box-shadow: 0 0 0 2px rgba(183, 245, 56, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .contact-button {
+            background: linear-gradient(135deg, #B7F538 0%, #9ae834 100%);
+            color: black;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .contact-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(183, 245, 56, 0.3);
+        }
+
     </style>
 </head>
 <body class="bg-black text-white p-4 md:p-12 lg:p-24 min-h-screen antialiased">
@@ -360,7 +464,7 @@ p.normalxd {
                 <div id="nav-menu-desktop" class="hidden md:flex space-x-4 md:space-x-8">
                     <a href="/projects" class="text-gray-400 hover:text-white transition-colors">Projects</a>
                     <a href="#about" class="text-gray-400 hover:text-white transition-colors">About</a>
-              
+                    <a href="#skills" class="text-gray-400 hover:text-white transition-colors">Skills</a>
                     <a href="#connect" class="text-gray-400 hover:text-white transition-colors">Connect</a>
                 </div>
                 
@@ -390,7 +494,7 @@ p.normalxd {
             <div class="flex flex-col items-end space-y-4">
                 <a href="/projects" class="text-gray-400 hover:text-white transition-colors text-xl">Projects</a>
                 <a href="#about" class="text-gray-400 hover:text-white transition-colors text-xl">About</a>
-                
+                <a href="#skills" class="text-gray-400 hover:text-white transition-colors text-xl">Skills</a>
                 <a href="#contact" class="text-gray-400 hover:text-white transition-colors text-xl">Contact</a>
             </div>
         </div>
@@ -421,6 +525,70 @@ p.normalxd {
                 <p class="text-center font-bold text-1.7xl pt-6">
                     Let's create something amazing, for everyone for everything   ✌️
                 </p>
+            </div>
+        </section>
+
+        <!-- Skills & Technologies Section -->
+        <section id="skills" class="space-y-12 pt-16">
+            <h2 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-left">
+                Skills & Technologies
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Frontend -->
+                <div class="skill-card">
+                    <div class="skill-icon">🌐</div>
+                    <h3 class="skill-title">Frontend</h3>
+                    <p class="skill-tech">HTML, CSS, JavaScript</p>
+                </div>
+                
+                <!-- Mobile Development -->
+                <div class="skill-card">
+                    <div class="skill-icon">📱</div>
+                    <h3 class="skill-title">Mobile Dev</h3>
+                    <p class="skill-tech">Android, React Native</p>
+                </div>
+                
+                <!-- Backend -->
+                <div class="skill-card">
+                    <div class="skill-icon">⚙️</div>
+                    <h3 class="skill-title">Backend</h3>
+                    <p class="skill-tech">Node.js, Python</p>
+                </div>
+                
+                <!-- Database -->
+                <div class="skill-card">
+                    <div class="skill-icon">🗄️</div>
+                    <h3 class="skill-title">Database</h3>
+                    <p class="skill-tech">MySQL, MongoDB</p>
+                </div>
+                
+                <!-- DevOps -->
+                <div class="skill-card">
+                    <div class="skill-icon">🚀</div>
+                    <h3 class="skill-title">DevOps</h3>
+                    <p class="skill-tech">Git, GitHub Actions</p>
+                </div>
+                
+                <!-- Design -->
+                <div class="skill-card">
+                    <div class="skill-icon">🎨</div>
+                    <h3 class="skill-title">Design</h3>
+                    <p class="skill-tech">UI/UX, Figma</p>
+                </div>
+                
+                <!-- AI/ML -->
+                <div class="skill-card">
+                    <div class="skill-icon">🤖</div>
+                    <h3 class="skill-title">AI/ML</h3>
+                    <p class="skill-tech">TensorFlow, OpenAI</p>
+                </div>
+                
+                <!-- Cloud -->
+                <div class="skill-card">
+                    <div class="skill-icon">☁️</div>
+                    <h3 class="skill-title">Cloud</h3>
+                    <p class="skill-tech">AWS, Firebase</p>
+                </div>
             </div>
         </section>
 
@@ -607,30 +775,112 @@ p.normalxd {
             </ul>
         </section>
 
+        <!-- Contact Section -->
+        <section id="contact" class="space-y-12 py-16">
+            <h2 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-center">
+                Get In Touch
+            </h2>
+            <p class="text-lg text-gray-400 text-center max-w-2xl mx-auto">
+                Have a project in mind or just want to say hello? I'd love to hear from you! 
+                Drop me a message and I'll get back to you as soon as possible.
+            </p>
+            
+            <div class="contact-form">
+                <form action="#" method="POST" onsubmit="handleFormSubmit(event)">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Name *</label>
+                        <input type="text" id="name" name="name" class="form-input" required 
+                               placeholder="Your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email *</label>
+                        <input type="email" id="email" name="email" class="form-input" required 
+                               placeholder="your.email@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject" class="form-label">Subject</label>
+                        <input type="text" id="subject" name="subject" class="form-input" 
+                               placeholder="What's this about?">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message" class="form-label">Message *</label>
+                        <textarea id="message" name="message" class="form-input form-textarea" required 
+                                  placeholder="Tell me about your project or just say hello!"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="contact-button">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+            
+            <div class="text-center">
+                <p class="text-gray-400 mb-4">Or reach me directly at:</p>
+                <div class="flex flex-wrap justify-center gap-6">
+                    <a href="mailto:contact@zidhuxd.com" class="text-[#B7F538] hover:text-white transition-colors">
+                        📧 contact@zidhuxd.com
+                    </a>
+                    <a href="https://t.me/zidhuxd" class="text-[#B7F538] hover:text-white transition-colors">
+                        💬 Telegram
+                    </a>
+                    <a href="https://github.com/zidhu-xd" class="text-[#B7F538] hover:text-white transition-colors">
+                        🐙 GitHub
+                    </a>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <!-- Footer Section -->
-    <footer id="contact" class="w-full max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center py-8 text-gray-500">
+    <footer class="w-full max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center py-8 text-gray-500">
         <!-- Animated text for the footer -->
         <div class="flex items-center mb-4 md:mb-0 space-x-2">
             <span id="drawing-text" class="text-white text-md text-drawing-effect">Made with ❤️ by ZidhuXD.</span>
         </div>
     </footer>
 
-    <!-- JavaScript for Mobile Menu -->
+    <!-- JavaScript for Mobile Menu and Contact Form -->
     <script>
+        // Contact form handling
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const subject = formData.get('subject');
+            const message = formData.get('message');
+            
+            // Create mailto link
+            const mailtoLink = `mailto:contact@zidhuxd.com?subject=${encodeURIComponent(subject || 'Contact from Portfolio')}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
+            
+            // Open email client
+            window.location.href = mailtoLink;
+            
+            // Show success message
+            const button = form.querySelector('.contact-button');
+            const originalText = button.textContent;
+            button.textContent = 'Email client opened!';
+            button.style.background = 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = 'linear-gradient(135deg, #B7F538 0%, #9ae834 100%)';
+            }, 3000);
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const menuButton = document.getElementById('menu-button');
             const mobileNavMenu = document.getElementById('mobile-nav-menu');
             const navLinks = mobileNavMenu.querySelectorAll('a');
             const desktopNavLinks = document.getElementById('nav-menu-desktop');
             
-            // Add 'Connect' link to desktop menu
-            const connectLinkDesktop = document.createElement('a');
-            connectLinkDesktop.href = '#connect';
-            connectLinkDesktop.className = 'text-gray-400 hover:text-white transition-colors';
-            connectLinkDesktop.textContent = 'Connect';
-            desktopNavLinks.insertBefore(connectLinkDesktop, desktopNavLinks.children[2]);
+            // No need to add Connect link manually as it's already in the HTML
 
             // Function to close the mobile menu
             function closeMenu() {
@@ -658,6 +908,20 @@ p.normalxd {
                 link.addEventListener('click', () => {
                     // Delay closing the menu to allow the scroll to happen
                     setTimeout(closeMenu, 150);
+                });
+            });
+
+            // Smooth scrolling for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
                 });
             });
         });
